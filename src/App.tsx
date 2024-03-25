@@ -21,22 +21,24 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import Login from './pages/Login';
+import Profile from './pages/Profile';
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
-
+const App: React.FC = () => {
+  const isAuthed = true;
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonRouterOutlet onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
+          <Route path="/home" component={Home} />
+          <Route path="/login" component={Login} />
+          <Route path="/profile" component={Profile} />
+          <Redirect exact from="/" to="/home" />
+        </IonRouterOutlet>
+      </IonReactRouter>
+    </IonApp>
+  );
+}
 export default App;
