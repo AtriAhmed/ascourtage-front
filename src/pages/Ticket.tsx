@@ -1,20 +1,19 @@
-import { IonAccordion, IonAccordionGroup, IonBadge, IonButton, IonButtons, IonCard, IonCardContent, IonCheckbox, IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonList, IonMenu, IonMenuButton, IonNote, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonAccordion, IonAccordionGroup, IonBadge, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonContent, IonFab, IonFabButton, IonGrid, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonList, IonMenu, IonMenuButton, IonNote, IonPage, IonRow, IonSearchbar, IonText, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
-
-import { add } from "ionicons/icons";
-import { useHistory } from 'react-router';
 import { menuController } from '@ionic/core/components';
+import { add, searchCircle, searchCircleOutline } from "ionicons/icons";
+import { useHistory } from 'react-router';
 
-const Profile: React.FC = () => {
+const Ticket: React.FC = () => {
   const history = useHistory();
 
- async function closeMenu(){
+  async function closeMenu(){
     await menuController.close("main-menu")
   }
 
   return (
   <>
-      <IonMenu menuId="main-menu" contentId="main-content">
+      <IonMenu menuId='main-menu' contentId="main-content">
         <IonHeader>
           <IonToolbar>
             <IonTitle>Menu Content</IonTitle>
@@ -26,7 +25,7 @@ const Profile: React.FC = () => {
         <IonItem slot="header" color="light">
           <IonLabel>Adhérents</IonLabel>
         </IonItem>
-        <div className="p-4 pl-8" slot="content" onClick={()=>{history.push("/adherents");closeMenu()}}>
+        <div className="p-4 pl-8" slot="content">
           Liste de adhérents
         </div>
         <div className="p-4 pl-8" slot="content">
@@ -47,7 +46,7 @@ const Profile: React.FC = () => {
           Consommation prestataires
         </div>
       </IonAccordion>
-      <IonItem color="light">
+      <IonItem color="light" onClick={()=>{history.push("/declaration");closeMenu()}}>
           <IonLabel>Déclaration salaires</IonLabel>
         </IonItem>
         <IonItem color="light">
@@ -76,22 +75,26 @@ const Profile: React.FC = () => {
             <IonButtons slot="start">
               <IonMenuButton></IonMenuButton>
             </IonButtons>
-            <IonTitle>Profile</IonTitle>
+            <IonTitle>Assistance</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
-          <IonCard>
-            <IonCardContent>
-              <IonImg className='' src='https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg'></IonImg>
-              <IonText className="text-black text-xl font-bold flex justify-center">01 STE ALFA DE COMMERCE</IonText>
-              <IonText className="text-lg flex justify-center">@ste01</IonText>
-              <div className='flex justify-center'><IonButton className=''>Editer les infos du compte</IonButton></div>
-            </IonCardContent>
-          </IonCard>
+        
+    <IonItem>
+        <IonInput label="Veuillez choisir un object" labelPlacement="floating"></IonInput>
+      </IonItem>
+      <IonItem>
+        <IonInput label="Personne de contact" labelPlacement="floating"></IonInput>
+      </IonItem>
+      <IonItem>
+      <IonTextarea label='Contenu de votre demande' labelPlacement="floating" />
+      </IonItem>
+      <IonButton className='m-5' expand='block' shape="round" onClick={()=>history.push("/profile")}>Créer Ticket</IonButton>
+
         </IonContent>
       </IonPage>
     </>
     )
 };
 
-export default Profile;
+export default Ticket;

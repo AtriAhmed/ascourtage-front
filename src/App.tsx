@@ -23,18 +23,26 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
+import Adherents from './pages/Adherents';
+import Declaration from './pages/Declaration';
+import Ticket from './pages/Ticket';
 
 setupIonicReact();
 
 const App: React.FC = () => {
+  
   const isAuthed = true;
   return (
     <IonApp>
+      
       <IonReactRouter>
         <IonRouterOutlet onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
           <Route path="/home" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/profile" component={Profile} />
+          <Route path="/adherents" component={Adherents} />
+          <Route path="/declaration" component={Declaration} />
+          <Route path="/ticket" component={Ticket} />
           <Redirect exact from="/" to="/home" />
         </IonRouterOutlet>
       </IonReactRouter>
