@@ -3,7 +3,7 @@ import ExploreContainer from '../components/ExploreContainer';
 import { menuController } from '@ionic/core/components';
 import { add, searchCircle, searchCircleOutline } from "ionicons/icons";
 import { useHistory } from 'react-router';
-
+import "./Ticket.css"
 const Ticket: React.FC = () => {
   const history = useHistory();
 

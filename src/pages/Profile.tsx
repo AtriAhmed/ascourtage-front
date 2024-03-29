@@ -17,7 +17,7 @@ const Profile: React.FC = () => {
       <IonMenu menuId="main-menu" contentId="main-content">
         <IonHeader>
           <IonToolbar>
-            <IonTitle>Menu Content</IonTitle>
+            <IonTitle>ASCOURTAGE</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent >
