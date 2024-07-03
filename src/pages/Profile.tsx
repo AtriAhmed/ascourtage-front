@@ -1,16 +1,27 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonImg, IonText, IonIcon, IonButtons } from '@ionic/react';
 import { menu } from 'ionicons/icons';
+import CustomSidebar from '../components/CustomSidebar';
+import { useAuthContext } from '../context/AuthProvider';
 
 const Profile: React.FC = () => {
+  const { user }: { user: any } = useAuthContext();
+  const [isExpanded, setIsExpanded] = useState(false);
 
+  useEffect(() => {
+    console.log(user)
+  }, [user])
+
+  if (!user) return "Loading"
 
   return (
+
     <IonPage id="main-content">
+      <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
       <IonHeader>
         <IonToolbar className=''>
           <IonButtons slot='start' className='ml-2'>
-            <IonButton fill='clear' className='text-blue'>
+            <IonButton onClick={() => { setIsExpanded(!isExpanded) }} fill='clear' className='text-blue'>
               <IonIcon icon={menu} className='' />
             </IonButton>
           </IonButtons>
@@ -25,8 +36,8 @@ const Profile: React.FC = () => {
           <IonCard>
             <IonCardContent>
               <IonImg className='' src='https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg'></IonImg>
-              <IonText className="text-black text-xl font-bold flex justify-center">01 STE ALFA DE COMMERCE</IonText>
-              <IonText className="text-lg flex justify-center">@ste01</IonText>
+              <IonText className="text-black text-xl font-bold flex justify-center">{user?.lname + " " + user?.fname}</IonText>
+              <IonText className="text-lg flex justify-center">@{user?.username}</IonText>
               <div className='flex justify-center'><IonButton className='blue'>Editer les infos du compte</IonButton></div>
             </IonCardContent>
           </IonCard>
