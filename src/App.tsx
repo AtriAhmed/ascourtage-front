@@ -31,8 +31,10 @@ import './components/CustomSidebar.css'
 import axios from 'axios';
 import AuthProvider from './context/AuthProvider';
 import Dashboard from './pages/user/Dashboard';
-import AdherentsPrestataires from './pages/user/AdherentsPrestataires';
+import AdherentPrestataires from './pages/user/AdherentPrestataires';
 import Prestataires from './pages/user/Prestataires';
+import Bordereaux from './pages/user/Bordereaux';
+import BordereauDecomptes from './pages/user/BordereauDecomptes';
 
 setupIonicReact();
 
@@ -59,8 +61,10 @@ const App: React.FC = () => {
               <Route path="/login" component={Login} />
               <Route path="/profile" component={Profile} />
               <Route path="/adherents" component={Adherents} />
-              <Route path="/prestataires/by-adherent/:id" component={AdherentsPrestataires} exact />
+              <Route path="/prestataires/by-adherent/:id" component={AdherentPrestataires} exact />
               <Route path="/prestataires" component={Prestataires} exact />
+              <Route path="/bordereaux" component={Bordereaux} exact />
+              <Route path="/decomptes/by-bordereau/:id" component={BordereauDecomptes} exact />
               <Route path="/declaration" component={Declaration} />
               <Route path="/ticket" component={Ticket} />
               <Route path="/dashboard" component={Dashboard} />

@@ -3,14 +3,15 @@ import { IonAccordion, IonAccordionGroup, IonIcon, IonItem, IonLabel, IonList } 
 import { peopleOutline, cashOutline, homeOutline, personOutline, helpCircleOutline, logOutOutline, people, cash, home, helpCircle, person, logOut } from 'ionicons/icons';
 import { useHistory } from 'react-router';
 import './CustomSidebar.css'
+import { useAuthContext } from '../context/AuthProvider';
 
 const BUTTON_STYLE = "text-2xl !text-[#082374] flex justify-start items-center relative";
 
-const LABEL_STYLE = "!text-sm !truncate !text-[#082374]";
+const LABEL_STYLE = "!text-sm !truncate !text-[#082374] truncate";
 
-const ITEM_STYLE = 'w-full ml-10';
+const ITEM_STYLE = 'w-full ml-10 truncate';
 
-const ACC_STYLE = "!text-sm ml-10"
+const ACC_STYLE = "!text-sm ml-10 truncate"
 
 interface CustomSidebarProps {
     isExpanded: boolean,
@@ -18,11 +19,19 @@ interface CustomSidebarProps {
 }
 
 const CustomSidebar: React.FC<CustomSidebarProps> = ({ isExpanded, setIsExpanded }) => {
+
+    const { setUser } = useAuthContext();
+    function logout() {
+        localStorage.removeItem('token');
+        setUser(null);
+    }
+
     const history = useHistory();
 
-    // const navigateAndCloseMenu = (path: string) => {
-    //     history.push(path);
-    // };
+    const navigateAndCloseMenu = (path: string) => {
+        setIsExpanded(false);
+        history.push(path);
+    };
 
 
     // const [startX, setStartX] = useState(0);
@@ -63,7 +72,7 @@ const CustomSidebar: React.FC<CustomSidebarProps> = ({ isExpanded, setIsExpanded
         // onTouchMove={handleTouchMove}
         // onTouchEnd={handleTouchEnd}
         >
-            <div className='absolute w-screen h-full z-0' onClick={(e: any) => { if (!e.target.closest(".sidebar")) setIsExpanded(false) }}></div>
+            {isExpanded && <div className='absolute w-screen h-full z-0' onClick={(e: any) => { if (!e.target.closest(".sidebar")) setIsExpanded(false) }}></div>}
             <IonAccordionGroup className='w-full h-full relative z-10 sidebar' onClick={() => { if (!isExpanded) setIsExpanded(true) }}>
                 <div className={`flex flex-col ${isExpanded ? "gap-2" : "gap-14"} p-4 ${isExpanded ? "" : "pt-10"}`}>
 
@@ -75,10 +84,10 @@ const CustomSidebar: React.FC<CustomSidebarProps> = ({ isExpanded, setIsExpanded
                             <IonItem slot="header" >
                                 <IonLabel className={`${LABEL_STYLE}`}>Adhérents</IonLabel>
                             </IonItem>
-                            <div className="p-4 pl-8" slot="content" onClick={() => { history.push("/adherents"); }}>
+                            <div className="p-4 pl-8" slot="content" onClick={() => { navigateAndCloseMenu("/adherents") }}>
                                 Liste de adhérents
                             </div>
-                            <div className="p-4 pl-8" slot="content" onClick={() => { history.push("/prestataires"); }}>
+                            <div className="p-4 pl-8" slot="content" onClick={() => { navigateAndCloseMenu("/prestataires"); }}>
                                 Liste des prestataires
                             </div>
                         </IonAccordion>}
@@ -90,13 +99,13 @@ const CustomSidebar: React.FC<CustomSidebarProps> = ({ isExpanded, setIsExpanded
                             <IonItem slot="header">
                                 <IonLabel className={`${LABEL_STYLE}`}>Remboursements</IonLabel>
                             </IonItem>
-                            <div className="p-4 pl-8" slot="content">
+                            <div className="p-4 pl-8" slot="content" onClick={() => navigateAndCloseMenu("bordereaux")}>
                                 Bordereaux
                             </div>
-                            <div className="p-4 pl-8" slot="content">
+                            <div className="p-4 pl-8" slot="content" onClick={() => navigateAndCloseMenu("recherche-decomptes")}>
                                 Recherche decomptes
                             </div>
-                            <div className="p-4 pl-8" slot="content">
+                            <div className="p-4 pl-8" slot="content" onClick={() => navigateAndCloseMenu("consommation-prestataires")}>
                                 Consommation prestataires
                             </div>
                         </IonAccordion>}
@@ -104,28 +113,28 @@ const CustomSidebar: React.FC<CustomSidebarProps> = ({ isExpanded, setIsExpanded
 
                     <div className={`${BUTTON_STYLE}`}>
                         <IonIcon icon={home} slot="start" className='absolute' />
-                        {isExpanded && <IonItem className={`${ITEM_STYLE}`}>
+                        {isExpanded && <IonItem className={`${ITEM_STYLE}`} onClick={() => navigateAndCloseMenu("/declaration-salaire")}>
                             <IonLabel className={`${LABEL_STYLE}`}>Déclaration salaires</IonLabel>
                         </IonItem>}
                     </div>
 
                     <button className={`${BUTTON_STYLE}`}>
                         <IonIcon icon={helpCircle} slot="start" className='absolute' />
-                        {isExpanded && <IonItem className={`${ITEM_STYLE}`}>
+                        {isExpanded && <IonItem className={`${ITEM_STYLE}`} onClick={() => navigateAndCloseMenu("/assistance")}>
                             <IonLabel className={`${LABEL_STYLE}`}>Assistance</IonLabel>
                         </IonItem>}
                     </button>
 
                     <button className={`${BUTTON_STYLE}`}>
                         <IonIcon icon={person} slot="start" className='absolute' />
-                        {isExpanded && <IonItem className={`${ITEM_STYLE}`}>
+                        {isExpanded && <IonItem className={`${ITEM_STYLE}`} onClick={() => navigateAndCloseMenu("/profile")}>
                             <IonLabel className={`${LABEL_STYLE}`}>Profile</IonLabel>
                         </IonItem>}
                     </button>
 
                     <button className={`${BUTTON_STYLE}`}>
                         <IonIcon icon={logOut} slot="start" className='absolute' />
-                        {isExpanded && <IonItem className={`${ITEM_STYLE}`}>
+                        {isExpanded && <IonItem className={`${ITEM_STYLE}`} onClick={() => { logout(); navigateAndCloseMenu("/login"); }}>
                             <IonLabel className={`${LABEL_STYLE}`}>Se déconnecter</IonLabel>
                         </IonItem>}
                     </button>

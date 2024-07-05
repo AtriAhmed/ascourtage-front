@@ -21,7 +21,6 @@ const Adherents: React.FC = () => {
   useEffect(() => {
     axios.get('/api/adherents').then(res => {
       setAdherents(res.data);
-      console.log(res.data)
     })
   }, [])
 
@@ -61,13 +60,13 @@ const Adherents: React.FC = () => {
               </div>
               <div className='divide-y'>
                 {adherents.map((adherent: any) =>
-                  <div onClick={() => history.push(`/prestataires/by-adherents/${adherent.Adherent}`)} className='grid grid-cols-12 text-black'>
+                  <div key={adherent.Adherent} onClick={(e: any) => { if (!e.target.closest(".view")) history.push(`/prestataires/by-adherents/${adherent.Adherent}`) }} className='grid grid-cols-12 text-black'>
                     <div className='col-span-6 py-2'>
                       <IonText className='block'>{adherent.Adherent}</IonText>
                       <div className='flex gap-1'><IonText className='font-bold'>{adherent.Nom}</IonText>
                         <IonText>{adherent.Prenom}</IonText></div>
                     </div>
-                    <div className='py-2 col-span-6 justify-self-center place-self-end'><IonButton fill='clear' id="open-modal" onClick={() => { setToView(adherent); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
+                    <div className='py-2 col-span-6 justify-self-center place-self-end'><IonButton className='view' fill='clear' id="open-modal" onClick={() => { setToView(adherent); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
                   </div>
                 )}
               </div>
@@ -118,62 +117,3 @@ const Adherents: React.FC = () => {
 };
 
 export default Adherents;
-
-/*
-<IonMenu menuId='main-menu' contentId="main-content">
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Menu Content</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent >
-        <IonAccordionGroup>
-      <IonAccordion value="first">
-        <IonItem slot="header" color="light">
-          <IonLabel>Adhérents</IonLabel>
-        </IonItem>
-        <div className="p-4 pl-8" slot="content">
-          Liste de adhérents
-        </div>
-        <div className="p-4 pl-8" slot="content">
-          Liste des prestataires
-        </div>
-      </IonAccordion>
-      <IonAccordion value="second">
-        <IonItem slot="header" color="light">
-          <IonLabel>Remboursements</IonLabel>
-        </IonItem>
-        <div className="p-4 pl-8" slot="content">
-          Bordereaux
-        </div>
-        <div className="p-4 pl-8" slot="content">
-          Recherche decomptes
-        </div>
-        <div className="p-4 pl-8" slot="content">
-          Consommation prestataires
-        </div>
-      </IonAccordion>
-      <IonItem color="light" onClick={()=>{history.push("/declaration");closeMenu()}}>
-          <IonLabel>Déclaration salaires</IonLabel>
-        </IonItem>
-        <IonItem color="light">
-          <IonLabel>Assistance</IonLabel>
-        </IonItem>
-        <IonItem color="light">
-          <IonLabel>Profile</IonLabel>
-        </IonItem>
-      <IonAccordion value="sixth">
-        <IonItem slot="header" color="light">
-          <IonLabel>Account</IonLabel>
-        </IonItem>
-        <div className="p-4 pl-8" slot="content">
-          Compte
-        </div>
-        <div className="p-4 pl-8" slot="content">
-          Se déconnecter
-        </div>
-      </IonAccordion>
-    </IonAccordionGroup>
-        </IonContent>
-      </IonMenu>
-      */

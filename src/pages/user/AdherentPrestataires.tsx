@@ -8,8 +8,9 @@ import CustomSidebar from '../../components/CustomSidebar';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const Prestataires: React.FC = () => {
+const AdherentPrestataires: React.FC = () => {
     const history = useHistory();
+    const { id }: { id: string } = useParams();
     const [loading, setLoading] = useState(true);
 
     const { user }: { user: any } = useAuthContext();
@@ -18,11 +19,12 @@ const Prestataires: React.FC = () => {
     const [prestataires, setPrestataires] = useState([]);
 
     useEffect(() => {
-        axios.get(`/api/prestataires`).then(res => {
-            setPrestataires(res.data);
-            setLoading(false);
-        })
-    }, [])
+        if (id)
+            axios.get(`/api/prestataires/by-adherent/${id}`).then(res => {
+                setPrestataires(res.data);
+                setLoading(false);
+            })
+    }, [id])
 
     const [toView, setToView] = useState<any>(null);
     const [showModal, setShowModal] = useState(false);
@@ -62,14 +64,14 @@ const Prestataires: React.FC = () => {
                             </div>
                             <div className='divide-y'>
                                 {prestataires?.map((prestataire: any) =>
-                                    <div className='grid grid-cols-12 text-black'>
+                                    <Link to={`/prestataires/${prestataire.id}`} className='grid grid-cols-12 text-black'>
                                         <div className='col-span-6 py-2'>
                                             <IonText className='block'>{prestataire.id}</IonText>
                                             <div className='flex gap-1'><IonText className='font-bold'>{prestataire.Nom}</IonText>
                                                 <IonText>{prestataire.Prenom}</IonText></div>
                                         </div>
                                         <div className='py-2 col-span-6 justify-self-center place-self-end'><IonButton fill='clear' id="open-modal" onClick={() => { setToView(prestataire); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
-                                    </div>
+                                    </Link>
                                 )}
                             </div>
                         </IonCardContent>
@@ -118,4 +120,4 @@ const Prestataires: React.FC = () => {
     )
 };
 
-export default Prestataires;
+export default AdherentPrestataires;

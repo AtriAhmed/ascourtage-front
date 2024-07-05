@@ -8,21 +8,23 @@ import CustomSidebar from '../../components/CustomSidebar';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const Prestataires: React.FC = () => {
+const BordereauDecomptes: React.FC = () => {
     const history = useHistory();
+    const { id }: { id: string } = useParams();
     const [loading, setLoading] = useState(true);
 
     const { user }: { user: any } = useAuthContext();
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const [prestataires, setPrestataires] = useState([]);
+    const [decomptes, setDecomptes] = useState([]);
 
     useEffect(() => {
-        axios.get(`/api/prestataires`).then(res => {
-            setPrestataires(res.data);
-            setLoading(false);
-        })
-    }, [])
+        if (id)
+            axios.get(`/api/decomptes/by-bordereau/${id}`).then(res => {
+                setDecomptes(res.data);
+                setLoading(false);
+            })
+    }, [id])
 
     const [toView, setToView] = useState<any>(null);
     const [showModal, setShowModal] = useState(false);
@@ -45,7 +47,7 @@ const Prestataires: React.FC = () => {
                             <IonIcon icon={menu} className='' />
                         </IonButton>
                     </IonButtons>
-                    <IonTitle>Prestataires</IonTitle>
+                    <IonTitle>Decomptes</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
@@ -53,22 +55,22 @@ const Prestataires: React.FC = () => {
                     <IonSearchbar autocapitalize=''></IonSearchbar>
                     <IonCard>
                         <IonCardHeader className='bg-gray-100'>
-                            <IonCardTitle>Liste des Prestataires</IonCardTitle>
+                            <IonCardTitle>Liste des Decomptes</IonCardTitle>
                         </IonCardHeader>
                         <IonCardContent className=''>
                             <div className='grid grid-cols-12 font-bold text-black'>
-                                <div className='col-span-6 py-2'>Prestataire</div>
+                                <div className='col-span-6 py-2'>Decompte</div>
                                 <div className='col-span-6 py-2 justify-self-center place-self-center'>Action</div>
                             </div>
                             <div className='divide-y'>
-                                {prestataires?.map((prestataire: any) =>
-                                    <div className='grid grid-cols-12 text-black'>
+                                {decomptes?.map((decompte: any) =>
+                                    <div key={decompte.id} className='grid grid-cols-12 text-black'>
                                         <div className='col-span-6 py-2'>
-                                            <IonText className='block'>{prestataire.id}</IonText>
-                                            <div className='flex gap-1'><IonText className='font-bold'>{prestataire.Nom}</IonText>
-                                                <IonText>{prestataire.Prenom}</IonText></div>
+                                            <IonText className='block'>{decompte.id}</IonText>
+                                            <div className='flex gap-1'><IonText className='font-bold'>{decompte.Nom}</IonText>
+                                                <IonText>{decompte.Prenom}</IonText></div>
                                         </div>
-                                        <div className='py-2 col-span-6 justify-self-center place-self-end'><IonButton fill='clear' id="open-modal" onClick={() => { setToView(prestataire); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
+                                        <div className='py-2 col-span-6 justify-self-center place-self-end'><IonButton fill='clear' id="open-modal" onClick={() => { setToView(decompte); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
                                     </div>
                                 )}
                             </div>
@@ -77,7 +79,7 @@ const Prestataires: React.FC = () => {
                     <IonModal id='example-modal' isOpen={showModal}>
                         <IonContent>
                             <IonToolbar className='tool'>
-                                <IonTitle>Détailles Prestataire</IonTitle>
+                                <IonTitle>Détailles Decompte</IonTitle>
                                 <IonButtons slot="end">
                                     <IonButton color="light" onClick={() => setShowModal(false)}>
                                         Fermer
@@ -86,7 +88,7 @@ const Prestataires: React.FC = () => {
                             </IonToolbar>
                             <div className='ion-padding'>
                                 <div className='flex gap-2'>
-                                    <IonText className='font-bold'>Prestataire:</IonText>
+                                    <IonText className='font-bold'>Decompte:</IonText>
                                     <IonText className=''>{toView?.id}</IonText>
                                 </div>
                                 <div className='flex gap-2'>
@@ -118,4 +120,4 @@ const Prestataires: React.FC = () => {
     )
 };
 
-export default Prestataires;
+export default BordereauDecomptes;

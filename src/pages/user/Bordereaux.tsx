@@ -8,23 +8,21 @@ import CustomSidebar from '../../components/CustomSidebar';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const AdherentsPrestataires: React.FC = () => {
+const Bordereaux: React.FC = () => {
     const history = useHistory();
-    const { id }: { id: string } = useParams();
     const [loading, setLoading] = useState(true);
 
     const { user }: { user: any } = useAuthContext();
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const [prestataires, setPrestataires] = useState([]);
+    const [bordereaux, setBordereaux] = useState([]);
 
     useEffect(() => {
-        if (id)
-            axios.get(`/api/prestataires/by-adherent/${id}`).then(res => {
-                setPrestataires(res.data);
-                setLoading(false);
-            })
-    }, [id])
+        axios.get(`/api/bordereaux`).then(res => {
+            setBordereaux(res.data);
+            setLoading(false);
+        })
+    }, [])
 
     const [toView, setToView] = useState<any>(null);
     const [showModal, setShowModal] = useState(false);
@@ -47,7 +45,7 @@ const AdherentsPrestataires: React.FC = () => {
                             <IonIcon icon={menu} className='' />
                         </IonButton>
                     </IonButtons>
-                    <IonTitle>Prestataires</IonTitle>
+                    <IonTitle>Bordereaux</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
@@ -55,23 +53,23 @@ const AdherentsPrestataires: React.FC = () => {
                     <IonSearchbar autocapitalize=''></IonSearchbar>
                     <IonCard>
                         <IonCardHeader className='bg-gray-100'>
-                            <IonCardTitle>Liste des Prestataires</IonCardTitle>
+                            <IonCardTitle>Liste des Bordereaux</IonCardTitle>
                         </IonCardHeader>
                         <IonCardContent className=''>
                             <div className='grid grid-cols-12 font-bold text-black'>
-                                <div className='col-span-6 py-2'>Prestataire</div>
+                                <div className='col-span-6 py-2'>Bordereau</div>
                                 <div className='col-span-6 py-2 justify-self-center place-self-center'>Action</div>
                             </div>
                             <div className='divide-y'>
-                                {prestataires?.map((prestataire: any) =>
-                                    <Link to={`/prestataires/${prestataire.id}`} className='grid grid-cols-12 text-black'>
+                                {bordereaux?.map((bordereau: any) =>
+                                    <div key={bordereau.Bordereau} onClick={(e: any) => { if (!e.target.closest(".view")) history.push(`/decomptes/by-bordereau/${bordereau.Bordereau}`) }} className='grid grid-cols-12 text-black'>
                                         <div className='col-span-6 py-2'>
-                                            <IonText className='block'>{prestataire.id}</IonText>
-                                            <div className='flex gap-1'><IonText className='font-bold'>{prestataire.Nom}</IonText>
-                                                <IonText>{prestataire.Prenom}</IonText></div>
+                                            <IonText className='block'>{bordereau.Bordereau}</IonText>
+                                            <div className='flex gap-1'><IonText className='font-bold'>{bordereau.Entreprise}</IonText>
+                                                <IonText>{bordereau.Total}</IonText></div>
                                         </div>
-                                        <div className='py-2 col-span-6 justify-self-center place-self-end'><IonButton fill='clear' id="open-modal" onClick={() => { setToView(prestataire); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
-                                    </Link>
+                                        <div className='py-2 col-span-6 justify-self-center place-self-end'><IonButton className='view' fill='clear' id="open-modal" onClick={() => { setToView(bordereau); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
+                                    </div>
                                 )}
                             </div>
                         </IonCardContent>
@@ -79,7 +77,7 @@ const AdherentsPrestataires: React.FC = () => {
                     <IonModal id='example-modal' isOpen={showModal}>
                         <IonContent>
                             <IonToolbar className='tool'>
-                                <IonTitle>Détailles Prestataire</IonTitle>
+                                <IonTitle>Détailles Bordereau</IonTitle>
                                 <IonButtons slot="end">
                                     <IonButton color="light" onClick={() => setShowModal(false)}>
                                         Fermer
@@ -88,7 +86,7 @@ const AdherentsPrestataires: React.FC = () => {
                             </IonToolbar>
                             <div className='ion-padding'>
                                 <div className='flex gap-2'>
-                                    <IonText className='font-bold'>Prestataire:</IonText>
+                                    <IonText className='font-bold'>Bordereau:</IonText>
                                     <IonText className=''>{toView?.id}</IonText>
                                 </div>
                                 <div className='flex gap-2'>
@@ -120,4 +118,4 @@ const AdherentsPrestataires: React.FC = () => {
     )
 };
 
-export default AdherentsPrestataires;
+export default Bordereaux;
