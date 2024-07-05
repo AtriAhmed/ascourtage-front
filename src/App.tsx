@@ -1,5 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
+import { IonApp, IonPage, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 
@@ -23,14 +23,16 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
-import Adherents from './pages/Adherents';
-import Declaration from './pages/Declaration';
-import Ticket from './pages/Ticket';
+import Adherents from './pages/user/Adherents';
+import Declaration from './pages/user/Declaration';
+import Ticket from './pages/user/Ticket';
 
 import './components/CustomSidebar.css'
 import axios from 'axios';
 import AuthProvider from './context/AuthProvider';
 import Dashboard from './pages/user/Dashboard';
+import AdherentsPrestataires from './pages/user/AdherentsPrestataires';
+import Prestataires from './pages/user/Prestataires';
 
 setupIonicReact();
 
@@ -46,23 +48,28 @@ const App: React.FC = () => {
   })
 
   return (
-    <AuthProvider>
+    <IonPage>
 
-      <IonApp>
-        <IonReactRouter>
-          <IonRouterOutlet onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
-            <Route path="/home" component={Home} />
-            <Route path="/login" component={Login} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/adherents" component={Adherents} />
-            <Route path="/declaration" component={Declaration} />
-            <Route path="/ticket" component={Ticket} />
-            <Route path="/dashboard" component={Dashboard} />
-            <Redirect exact from="/" to="/home" />
-          </IonRouterOutlet>
-        </IonReactRouter>
-      </IonApp>
-    </AuthProvider>
+      <AuthProvider>
+
+        <IonApp>
+          <IonReactRouter>
+            <IonRouterOutlet onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
+              <Route path="/home" component={Home} />
+              <Route path="/login" component={Login} />
+              <Route path="/profile" component={Profile} />
+              <Route path="/adherents" component={Adherents} />
+              <Route path="/prestataires/by-adherent/:id" component={AdherentsPrestataires} exact />
+              <Route path="/prestataires" component={Prestataires} exact />
+              <Route path="/declaration" component={Declaration} />
+              <Route path="/ticket" component={Ticket} />
+              <Route path="/dashboard" component={Dashboard} />
+              <Redirect exact from="/" to="/home" />
+            </IonRouterOutlet>
+          </IonReactRouter>
+        </IonApp>
+      </AuthProvider>
+    </IonPage>
   );
 }
 export default App;

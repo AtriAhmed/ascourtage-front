@@ -1,13 +1,14 @@
 import { IonAccordion, IonAccordionGroup, IonAvatar, IonBadge, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonContent, IonFab, IonFabButton, IonGrid, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonList, IonMenu, IonMenuButton, IonModal, IonNote, IonPage, IonRow, IonSearchbar, IonText, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import ExploreContainer from '../../components/ExploreContainer';
 import { menuController } from '@ionic/core/components';
 import { add, menu, searchCircle, searchCircleOutline } from "ionicons/icons";
 import { useHistory } from 'react-router';
 import { useEffect, useRef, useState } from 'react';
 import './Adherents.css'
-import { useAuthContext } from '../context/AuthProvider';
-import CustomSidebar from '../components/CustomSidebar';
+import { useAuthContext } from '../../context/AuthProvider';
+import CustomSidebar from '../../components/CustomSidebar';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Adherents: React.FC = () => {
   const history = useHistory();
@@ -60,9 +61,9 @@ const Adherents: React.FC = () => {
               </div>
               <div className='divide-y'>
                 {adherents.map((adherent: any) =>
-                  <div className='grid grid-cols-12 text-black'>
+                  <div onClick={() => history.push(`/prestataires/by-adherents/${adherent.Adherent}`)} className='grid grid-cols-12 text-black'>
                     <div className='col-span-6 py-2'>
-                      <IonText className='block'>{adherent.id}</IonText>
+                      <IonText className='block'>{adherent.Adherent}</IonText>
                       <div className='flex gap-1'><IonText className='font-bold'>{adherent.Nom}</IonText>
                         <IonText>{adherent.Prenom}</IonText></div>
                     </div>
@@ -85,7 +86,7 @@ const Adherents: React.FC = () => {
               <div className='ion-padding'>
                 <div className='flex gap-2'>
                   <IonText className='font-bold'>Adherent:</IonText>
-                  <IonText className=''>{toView?.id}</IonText>
+                  <IonText className=''>{toView?.Adherent}</IonText>
                 </div>
                 <div className='flex gap-2'>
                   <IonText className='font-bold'>Date Entrée:</IonText>

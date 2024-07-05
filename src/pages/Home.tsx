@@ -16,7 +16,7 @@ const Home: React.FC = () => {
             <div className='flex flex-col gap-4 items-center'>
               <div className='text-white font-bold text-4xl'>Bienvenue à</div>
               <IonImg
-                src="https://sante.ascourtage.tn/users/images/logo.png"
+                src="/ascourtage.png"
                 alt="ASCOURTAGE"
               ></IonImg>
             </div>

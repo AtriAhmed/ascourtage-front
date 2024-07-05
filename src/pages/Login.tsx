@@ -3,7 +3,7 @@ import ExploreContainer from '../components/ExploreContainer';
 
 import { add } from "ionicons/icons";
 import { useHistory } from 'react-router';
-
+import './Login.css'
 import { Keyboard } from '@capacitor/keyboard';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -106,7 +106,7 @@ const Login: React.FC = () => {
             <span className='text-red-500'>
               {error}
             </span>
-            <IonButton expand='block' shape="round" onClick={(e) => handleSubmit(e)}>S'identifier</IonButton>
+            <IonButton className='blue' expand='block' shape="round" onClick={(e) => handleSubmit(e)}>S'identifier</IonButton>
 
           </div>
         </div>
