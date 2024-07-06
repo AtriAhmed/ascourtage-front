@@ -7,12 +7,12 @@ import { useAuthContext } from '../../context/AuthProvider';
 import CustomSidebar from '../../components/CustomSidebar';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import CirclesLoading from '../../components/Loadings/CirclesLoading';
 
 const Bordereaux: React.FC = () => {
     const history = useHistory();
     const [loading, setLoading] = useState(true);
 
-    const { user }: { user: any } = useAuthContext();
     const [isExpanded, setIsExpanded] = useState(false);
 
     const [bordereaux, setBordereaux] = useState([]);
@@ -33,7 +33,7 @@ const Bordereaux: React.FC = () => {
 
     // if (!user) return "Loading"
 
-    if (loading) return "Loading";
+    if (loading) return <CirclesLoading />;
 
     return (
         <IonPage id="main-content">

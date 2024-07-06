@@ -1,19 +1,29 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useContext, useEffect, ReactNode, createContext } from "react";
 import axios from "axios";
 
-const AuthContext = createContext({ user: undefined, setUser: (state: any) => state, getUserStatus: () => { } });
+const AuthContext = createContext({
+  user: undefined as any,
+  setUser: (state: any) => state,
+  getUserStatus: () => { },
+  userLoading: true,
+});
 
 function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
+  const [userLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    console.log(userLoading)
+  }, [userLoading])
 
   async function getUserStatus() {
     try {
       const res = await axios.get("api/user/status");
       setUser(res.data);
-      return res;
     } catch (err) {
-      return err;
+      setUser(null);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -21,7 +31,11 @@ function AuthProvider({ children }: { children: ReactNode }) {
     getUserStatus();
   }, []);
 
-  return <AuthContext.Provider value={{ user, setUser, getUserStatus }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, setUser, getUserStatus, userLoading }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export default AuthProvider;

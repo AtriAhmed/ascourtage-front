@@ -8,6 +8,7 @@ import { Keyboard } from '@capacitor/keyboard';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuthContext } from '../context/AuthProvider';
+import CirclesLoading from '../components/Loadings/CirclesLoading';
 
 const Login: React.FC = () => {
 
@@ -81,7 +82,7 @@ const Login: React.FC = () => {
     if (userStatus) history.push("/dashboard")
   }, [userStatus])
 
-  if (userStatus || loading) return "Loading";
+  if (userStatus || loading) return <CirclesLoading />;
 
   return (
     <IonPage>

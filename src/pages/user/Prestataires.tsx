@@ -7,6 +7,16 @@ import { useAuthContext } from '../../context/AuthProvider';
 import CustomSidebar from '../../components/CustomSidebar';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Loading from '../../components/Loading';
+import LoopLoading from '../../components/Loadings/LoopLoading';
+import SandGlassLoading from '../../components/Loadings/SandGlassLoading';
+import TubeLoading from '../../components/Loadings/TubeLoading';
+import ChainLoading from '../../components/Loadings/ChainLoading';
+import VibrationLoading from '../../components/Loadings/VibrationsLoading';
+import Vibration2Loading from '../../components/Loadings/Vibration2Loading';
+import TurningBoxesLoading from '../../components/Loadings/TurningBoxesLoading';
+import TurningBallsLoading from '../../components/Loadings/TurningBallsLoading';
+import CirclesLoading from '../../components/Loadings/CirclesLoading';
 
 const Prestataires: React.FC = () => {
     const history = useHistory();
@@ -20,6 +30,7 @@ const Prestataires: React.FC = () => {
     useEffect(() => {
         axios.get(`/api/prestataires`).then(res => {
             setPrestataires(res.data);
+        }).finally(() => {
             setLoading(false);
         })
     }, [])
@@ -33,7 +44,7 @@ const Prestataires: React.FC = () => {
 
     // if (!user) return "Loading"
 
-    if (loading) return "Loading";
+    if (loading) return <CirclesLoading />;
 
     return (
         <IonPage id="main-content">

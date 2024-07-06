@@ -9,29 +9,30 @@ import { useAuthContext } from '../../context/AuthProvider';
 import CustomSidebar from '../../components/CustomSidebar';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Loading from '../../components/Loading';
+import CirclesLoading from '../../components/Loadings/CirclesLoading';
 
 const Adherents: React.FC = () => {
   const history = useHistory();
 
-  const { user }: { user: any } = useAuthContext();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const [adherents, setAdherents] = useState([]);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     axios.get('/api/adherents').then(res => {
       setAdherents(res.data);
+    }).finally(() => {
+      setLoading(false)
     })
   }, [])
 
   const [toView, setToView] = useState<any>(null);
   const [showModal, setShowModal] = useState(false);
 
-  // useEffect(() => {
-  //   console.log(user)
-  // }, [user])
 
-  // if (!user) return "Loading"
+  if (loading) return <CirclesLoading />
 
   return (
     <IonPage id="main-content">

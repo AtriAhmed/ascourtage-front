@@ -7,6 +7,7 @@ import { useAuthContext } from '../../context/AuthProvider';
 import CustomSidebar from '../../components/CustomSidebar';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import CirclesLoading from '../../components/Loadings/CirclesLoading';
 
 const AdherentPrestataires: React.FC = () => {
     const history = useHistory();
@@ -22,6 +23,7 @@ const AdherentPrestataires: React.FC = () => {
         if (id)
             axios.get(`/api/prestataires/by-adherent/${id}`).then(res => {
                 setPrestataires(res.data);
+            }).finally(() => {
                 setLoading(false);
             })
     }, [id])
@@ -35,7 +37,7 @@ const AdherentPrestataires: React.FC = () => {
 
     // if (!user) return "Loading"
 
-    if (loading) return "Loading";
+    if (loading) return <CirclesLoading />;
 
     return (
         <IonPage id="main-content">
