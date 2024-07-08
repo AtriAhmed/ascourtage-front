@@ -99,13 +99,13 @@ const CustomSidebar: React.FC<CustomSidebarProps> = ({ isExpanded, setIsExpanded
                             <IonItem slot="header">
                                 <IonLabel className={`${LABEL_STYLE}`}>Remboursements</IonLabel>
                             </IonItem>
-                            <div className="p-4 pl-8" slot="content" onClick={() => navigateAndCloseMenu("bordereaux")}>
+                            <div className="p-4 pl-8" slot="content" onClick={() => navigateAndCloseMenu("/bordereaux")}>
                                 Bordereaux
                             </div>
-                            <div className="p-4 pl-8" slot="content" onClick={() => navigateAndCloseMenu("recherche-decomptes")}>
+                            <div className="p-4 pl-8" slot="content" onClick={() => navigateAndCloseMenu("/decomptes")}>
                                 Recherche decomptes
                             </div>
-                            <div className="p-4 pl-8" slot="content" onClick={() => navigateAndCloseMenu("consommation-prestataires")}>
+                            <div className="p-4 pl-8" slot="content" onClick={() => navigateAndCloseMenu("/cumul-prestataires")}>
                                 Consommation prestataires
                             </div>
                         </IonAccordion>}

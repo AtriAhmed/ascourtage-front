@@ -61,7 +61,7 @@ const Adherents: React.FC = () => {
               </div>
               <div className='divide-y'>
                 {adherents.map((adherent: any) =>
-                  <div key={adherent.Adherent} onClick={(e: any) => { if (!e.target.closest(".view")) history.push(`/prestataires/by-adherents/${adherent.Adherent}`) }} className='grid grid-cols-12 text-black'>
+                  <div key={adherent.Adherent} onClick={(e: any) => { if (!e.target.closest(".view")) history.push(`/prestataires/by-adherent/${adherent.Adherent}`) }} className='grid grid-cols-12 text-black'>
                     <div className='col-span-6 py-2'>
                       <IonText className='block'>{adherent.Adherent}</IonText>
                       <div className='flex gap-1'><IonText className='font-bold'>{adherent.Nom}</IonText>

@@ -7,15 +7,6 @@ import { useAuthContext } from '../../context/AuthProvider';
 import CustomSidebar from '../../components/CustomSidebar';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Loading from '../../components/Loading';
-import LoopLoading from '../../components/Loadings/LoopLoading';
-import SandGlassLoading from '../../components/Loadings/SandGlassLoading';
-import TubeLoading from '../../components/Loadings/TubeLoading';
-import ChainLoading from '../../components/Loadings/ChainLoading';
-import VibrationLoading from '../../components/Loadings/VibrationsLoading';
-import Vibration2Loading from '../../components/Loadings/Vibration2Loading';
-import TurningBoxesLoading from '../../components/Loadings/TurningBoxesLoading';
-import TurningBallsLoading from '../../components/Loadings/TurningBallsLoading';
 import CirclesLoading from '../../components/Loadings/CirclesLoading';
 
 const Prestataires: React.FC = () => {
@@ -37,12 +28,6 @@ const Prestataires: React.FC = () => {
 
     const [toView, setToView] = useState<any>(null);
     const [showModal, setShowModal] = useState(false);
-
-    // useEffect(() => {
-    //   console.log(user)
-    // }, [user])
-
-    // if (!user) return "Loading"
 
     if (loading) return <CirclesLoading />;
 

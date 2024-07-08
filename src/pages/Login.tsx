@@ -11,21 +11,6 @@ import { useAuthContext } from '../context/AuthProvider';
 import CirclesLoading from '../components/Loadings/CirclesLoading';
 
 const Login: React.FC = () => {
-
-  const [loading, setLoading] = useState(true);
-
-  const [userStatus, setUserStatus] = useState(false)
-
-  useEffect(() => {
-    axios.get("api/user/status").then(res => {
-      setUserStatus(true)
-    }).catch(() => {
-      setUserStatus(false);
-    }).finally(() => {
-      setLoading(false)
-    })
-  })
-
   const history = useHistory();
 
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
@@ -43,8 +28,6 @@ const Login: React.FC = () => {
   });
 
   const { setUser } = useAuthContext()
-  //   const [loading, setLoading] = useState(true)
-  // const navigate = useNavigate()
 
   const [error, setError] = useState<string>()
 
@@ -78,11 +61,6 @@ const Login: React.FC = () => {
     )
   }
 
-  useEffect(() => {
-    if (userStatus) history.push("/dashboard")
-  }, [userStatus])
-
-  if (userStatus || loading) return <CirclesLoading />;
 
   return (
     <IonPage>

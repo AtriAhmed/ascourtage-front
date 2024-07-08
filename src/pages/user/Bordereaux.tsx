@@ -27,12 +27,6 @@ const Bordereaux: React.FC = () => {
     const [toView, setToView] = useState<any>(null);
     const [showModal, setShowModal] = useState(false);
 
-    // useEffect(() => {
-    //   console.log(user)
-    // }, [user])
-
-    // if (!user) return "Loading"
-
     if (loading) return <CirclesLoading />;
 
     return (

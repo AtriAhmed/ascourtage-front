@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonPage, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
@@ -28,6 +28,8 @@ import Prestataires from './pages/user/Prestataires';
 import Bordereaux from './pages/user/Bordereaux';
 import BordereauDecomptes from './pages/user/BordereauDecomptes';
 import CirclesLoading from './components/Loadings/CirclesLoading';
+import DecomptesPage from './pages/user/DecomptesPage';
+import CumulPrestataires from './pages/user/CumulPrestataires';
 
 setupIonicReact();
 
@@ -41,18 +43,24 @@ axios.interceptors.request.use(function (config) {
 const App: React.FC = () => {
   const { user, userLoading } = useAuthContext();
 
+  useEffect(()=>{
+console.log(user)
+  },[user])
+
   return (
     <IonApp>
       <IonReactRouter>
         <IonRouterOutlet onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
           <Route path="/home" component={Home} />
-          <Route path="/login" component={Login} />
+          <Route path="/login" render={() => (userLoading ? <CirclesLoading /> : user ? <Redirect to="/dashboard" /> :<Login /> )} exact />
           <Route path="/profile" render={() => (userLoading ? <CirclesLoading /> : user ? <Profile /> : <Redirect to="/login" />)} exact />
           <Route path="/adherents" render={() => (userLoading ? <CirclesLoading /> : user ? <Adherents /> : <Redirect to="/login" />)} exact />
           <Route path="/prestataires/by-adherent/:id" render={() => (userLoading ? <CirclesLoading /> : user ? <AdherentPrestataires /> : <Redirect to="/login" />)} exact />
           <Route path="/prestataires" render={() => (userLoading ? <CirclesLoading /> : user ? <Prestataires /> : <Redirect to="/login" />)} exact />
           <Route path="/bordereaux" render={() => (userLoading ? <CirclesLoading /> : user ? <Bordereaux /> : <Redirect to="/login" />)} exact />
           <Route path="/decomptes/by-bordereau/:id" render={() => (userLoading ? <CirclesLoading /> : user ? <BordereauDecomptes /> : <Redirect to="/login" />)} exact />
+          <Route path="/decomptes" render={() => (userLoading ? <CirclesLoading /> : user ? <DecomptesPage /> : <Redirect to="/login" />)} exact />
+          <Route path="/cumul-prestataires" render={() => (userLoading ? <CirclesLoading /> : user ? <CumulPrestataires /> : <Redirect to="/login" />)} exact />
           <Route path="/declaration" render={() => (userLoading ? <CirclesLoading /> : user ? <Declaration /> : <Redirect to="/login" />)} exact />
           <Route path="/ticket" render={() => (userLoading ? <CirclesLoading /> : user ? <Ticket /> : <Redirect to="/login" />)} exact />
           <Route path="/dashboard" render={() => (userLoading ? <CirclesLoading /> : user ? <Dashboard /> : <Redirect to="/login" />)} exact />

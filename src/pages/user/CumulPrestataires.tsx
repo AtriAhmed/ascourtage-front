@@ -9,27 +9,23 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import CirclesLoading from '../../components/Loadings/CirclesLoading';
 
-const BordereauDecomptes: React.FC = () => {
+const CumulPrestataires: React.FC = () => {
     const history = useHistory();
-    const { id }: { id: string } = useParams();
     const [loading, setLoading] = useState(true);
 
-    const { user }: { user: any } = useAuthContext();
     const [isExpanded, setIsExpanded] = useState(false);
 
     const [decomptes, setDecomptes] = useState([]);
 
     useEffect(() => {
-        if (id)
-            axios.get(`/api/decomptes/by-bordereau/${id}`).then(res => {
+            axios.get(`/api/decomptes/cumul-prestataires`).then(res => {
                 setDecomptes(res.data);
                 setLoading(false);
             })
-    }, [id])
+    }, [])
 
     const [toView, setToView] = useState<any>(null);
     const [showModal, setShowModal] = useState(false);
-
 
     if (loading) return <CirclesLoading />;
 
@@ -43,7 +39,7 @@ const BordereauDecomptes: React.FC = () => {
                             <IonIcon icon={menu} className='' />
                         </IonButton>
                     </IonButtons>
-                    <IonTitle>Decomptes</IonTitle>
+                    <IonTitle>Consommation prestataires</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
@@ -51,7 +47,7 @@ const BordereauDecomptes: React.FC = () => {
                     <IonSearchbar autocapitalize=''></IonSearchbar>
                     <IonCard>
                         <IonCardHeader className='bg-gray-100'>
-                            <IonCardTitle>Liste des Decomptes</IonCardTitle>
+                            <IonCardTitle>Consommation prestataire</IonCardTitle>
                         </IonCardHeader>
                         <IonCardContent className=''>
                             <div className='grid grid-cols-12 font-bold text-black'>
@@ -60,11 +56,11 @@ const BordereauDecomptes: React.FC = () => {
                             </div>
                             <div className='divide-y'>
                                 {decomptes?.map((decompte: any) =>
-                                    <div key={decompte.id} className='grid grid-cols-12 text-black'>
+                                    <div key={decompte.Prestataire} className='grid grid-cols-12 text-black'>
                                         <div className='col-span-6 py-2'>
-                                            <IonText className='block'>{decompte.id}</IonText>
-                                            <div className='flex gap-1'><IonText className='font-bold'>{decompte.Nom}</IonText>
-                                                <IonText>{decompte.Prenom}</IonText></div>
+                                            <IonText className='block'>{decompte.Prestataire}</IonText>
+                                            <div className='flex gap-1'><IonText className='font-bold'>{decompte.Nometprenom}</IonText>
+                                                <IonText>{decompte.TotalMontant}</IonText></div>
                                         </div>
                                         <div className='py-2 col-span-6 justify-self-center place-self-end'><IonButton fill='clear' id="open-modal" onClick={() => { setToView(decompte); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
                                     </div>
@@ -116,4 +112,4 @@ const BordereauDecomptes: React.FC = () => {
     )
 };
 
-export default BordereauDecomptes;
+export default CumulPrestataires;

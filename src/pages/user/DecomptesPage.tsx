@@ -9,9 +9,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import CirclesLoading from '../../components/Loadings/CirclesLoading';
 
-const BordereauDecomptes: React.FC = () => {
+const DecomptesPage: React.FC = () => {
     const history = useHistory();
-    const { id }: { id: string } = useParams();
     const [loading, setLoading] = useState(true);
 
     const { user }: { user: any } = useAuthContext();
@@ -20,16 +19,14 @@ const BordereauDecomptes: React.FC = () => {
     const [decomptes, setDecomptes] = useState([]);
 
     useEffect(() => {
-        if (id)
-            axios.get(`/api/decomptes/by-bordereau/${id}`).then(res => {
+            axios.get(`/api/decomptes`).then(res => {
                 setDecomptes(res.data);
                 setLoading(false);
             })
-    }, [id])
+    }, [])
 
     const [toView, setToView] = useState<any>(null);
     const [showModal, setShowModal] = useState(false);
-
 
     if (loading) return <CirclesLoading />;
 
@@ -116,4 +113,4 @@ const BordereauDecomptes: React.FC = () => {
     )
 };
 
-export default BordereauDecomptes;
+export default DecomptesPage;

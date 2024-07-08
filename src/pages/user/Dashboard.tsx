@@ -3,6 +3,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCar
 import { menu } from 'ionicons/icons';
 import CustomSidebar from '../../components/CustomSidebar';
 import { useAuthContext } from '../../context/AuthProvider';
+import CirclesLoading from '../../components/Loadings/CirclesLoading';
 
 const Dashboard: React.FC = () => {
     const { user }: { user: any } = useAuthContext();
@@ -12,7 +13,7 @@ const Dashboard: React.FC = () => {
         console.log(user)
     }, [user])
 
-    if (!user) return "Loading"
+    if (!user) return <CirclesLoading />
 
     return (
 

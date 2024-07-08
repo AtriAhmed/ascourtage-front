@@ -14,7 +14,6 @@ const AdherentPrestataires: React.FC = () => {
     const { id }: { id: string } = useParams();
     const [loading, setLoading] = useState(true);
 
-    const { user }: { user: any } = useAuthContext();
     const [isExpanded, setIsExpanded] = useState(false);
 
     const [prestataires, setPrestataires] = useState([]);
@@ -31,11 +30,6 @@ const AdherentPrestataires: React.FC = () => {
     const [toView, setToView] = useState<any>(null);
     const [showModal, setShowModal] = useState(false);
 
-    // useEffect(() => {
-    //   console.log(user)
-    // }, [user])
-
-    // if (!user) return "Loading"
 
     if (loading) return <CirclesLoading />;
 
