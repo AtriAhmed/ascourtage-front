@@ -12,10 +12,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState(null);
   const [userLoading, setLoading] = useState(true);
 
-  useEffect(() => {
-    console.log(userLoading)
-  }, [userLoading])
-
   async function getUserStatus() {
     try {
       const res = await axios.get("api/user/status");

@@ -113,7 +113,7 @@ const CustomSidebar: React.FC<CustomSidebarProps> = ({ isExpanded, setIsExpanded
 
                     <div className={`${BUTTON_STYLE}`}>
                         <IonIcon icon={home} slot="start" className='absolute' />
-                        {isExpanded && <IonItem className={`${ITEM_STYLE}`} onClick={() => navigateAndCloseMenu("/declaration-salaire")}>
+                        {isExpanded && <IonItem className={`${ITEM_STYLE}`} onClick={() => navigateAndCloseMenu("/declaration")}>
                             <IonLabel className={`${LABEL_STYLE}`}>Déclaration salaires</IonLabel>
                         </IonItem>}
                     </div>
