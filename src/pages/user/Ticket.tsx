@@ -1,100 +1,83 @@
-import { IonAccordion, IonAccordionGroup, IonBadge, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonContent, IonFab, IonFabButton, IonGrid, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonList, IonMenu, IonMenuButton, IonNote, IonPage, IonRow, IonSearchbar, IonText, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import { menuController } from '@ionic/core/components';
-import { add, searchCircle, searchCircleOutline } from "ionicons/icons";
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonPage, IonSelect, IonSelectOption, IonTextarea, IonTitle, IonToast, IonToolbar } from '@ionic/react';
+import { checkmarkCircle, menu } from "ionicons/icons";
 import { useHistory } from 'react-router';
 import "./Ticket.css"
+import { useState } from 'react';
+import axios from 'axios';
+import CustomSidebar from '../../components/CustomSidebar';
 const Ticket: React.FC = () => {
   const history = useHistory();
 
-  async function closeMenu(){
-    await menuController.close("main-menu")
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [inputs, setInputs] = useState({
+    subject: "",
+    contactperson: "",
+    content: ""
+  });
+
+  const handleInput = (e: any) => {
+    const target = e.target as HTMLInputElement;
+    setInputs((prevInputs) => ({ ...prevInputs, [target.name]: e.detail.value }))
+  }
+
+  const handleSubmit = () => {
+    axios.post("/api/tickets", inputs).then(res => {
+      setIsOpen(true);
+    }).catch((err: any) => {
+      console.log(err)
+    })
   }
 
   return (
-  <>
-      <IonMenu menuId='main-menu' contentId="main-content">
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Menu Content</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent >
-        <IonAccordionGroup>
-      <IonAccordion value="first">
-        <IonItem slot="header" color="light">
-          <IonLabel>Adhérents</IonLabel>
-        </IonItem>
-        <div className="p-4 pl-8" slot="content">
-          Liste de adhérents
+    <IonPage id="main-content">
+      <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot='start' className='ml-2'>
+            <IonButton onClick={() => { setIsExpanded(!isExpanded) }} fill='clear' className='text-blue'>
+              <IonIcon icon={menu} className='' />
+            </IonButton>
+          </IonButtons>
+          <IonTitle>Assistance</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        <div className='pl-[60px]'>
+          <IonItem>
+            <IonSelect onIonChange={handleInput} value={inputs.subject} name='subject' label="Veuillez choisir un object" labelPlacement="floating">
+              <IonSelectOption value="Suggestion">Suggestion</IonSelectOption>
+              <IonSelectOption value="Demande de modification du RIB">Demande de modification du RIB</IonSelectOption>
+              <IonSelectOption value="Réclamation">Réclamation</IonSelectOption>
+              <IonSelectOption value="Autre demande" >Autre demande</IonSelectOption>
+            </IonSelect>
+          </IonItem>
+          <IonItem>
+            <IonInput onIonInput={handleInput} value={inputs.contactperson} name='contactperson' label="Personne de contact" labelPlacement="floating"></IonInput>
+          </IonItem>
+          <IonItem>
+            <IonTextarea onIonInput={handleInput} value={inputs.content} name='content' label='Contenu de votre demande' labelPlacement="floating" />
+          </IonItem>
+          <IonButton className='m-5' expand='block' shape="round" onClick={handleSubmit}>Créer Ticket</IonButton>
         </div>
-        <div className="p-4 pl-8" slot="content">
-          Liste des prestataires
-        </div>
-      </IonAccordion>
-      <IonAccordion value="second">
-        <IonItem slot="header" color="light">
-          <IonLabel>Remboursements</IonLabel>
-        </IonItem>
-        <div className="p-4 pl-8" slot="content">
-          Bordereaux
-        </div>
-        <div className="p-4 pl-8" slot="content">
-          Recherche decomptes
-        </div>
-        <div className="p-4 pl-8" slot="content">
-          Consommation prestataires
-        </div>
-      </IonAccordion>
-      <IonItem color="light" onClick={()=>{history.push("/declaration");closeMenu()}}>
-          <IonLabel>Déclaration salaires</IonLabel>
-        </IonItem>
-        <IonItem color="light">
-          <IonLabel>Assistance</IonLabel>
-        </IonItem>
-        <IonItem color="light">
-          <IonLabel>Profile</IonLabel>
-        </IonItem>
-      <IonAccordion value="sixth">
-        <IonItem slot="header" color="light">
-          <IonLabel>Account</IonLabel>
-        </IonItem>
-        <div className="p-4 pl-8" slot="content">
-          Compte
-        </div>
-        <div className="p-4 pl-8" slot="content">
-          Se déconnecter
-        </div>
-      </IonAccordion>
-    </IonAccordionGroup>
-        </IonContent>
-      </IonMenu>
-      <IonPage id="main-content">
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot="start">
-              <IonMenuButton></IonMenuButton>
-            </IonButtons>
-            <IonTitle>Assistance</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent className="ion-padding">
-        
-    <IonItem>
-        <IonInput label="Veuillez choisir un object" labelPlacement="floating"></IonInput>
-      </IonItem>
-      <IonItem>
-        <IonInput label="Personne de contact" labelPlacement="floating"></IonInput>
-      </IonItem>
-      <IonItem>
-      <IonTextarea label='Contenu de votre demande' labelPlacement="floating" />
-      </IonItem>
-      <IonButton className='m-5' expand='block' shape="round" onClick={()=>history.push("/profile")}>Créer Ticket</IonButton>
-
-        </IonContent>
-      </IonPage>
-    </>
-    )
+        <IonToast
+          icon={checkmarkCircle}
+          isOpen={isOpen}
+          duration={5000}
+          message="Ticket created successfully!"
+          className="custom-toast"
+          onDidDismiss={() => setIsOpen(false)}
+          buttons={[
+            {
+              text: 'Dismiss',
+              role: 'cancel',
+            },
+          ]}
+        ></IonToast>
+      </IonContent>
+    </IonPage>
+  )
 };
 
 export default Ticket;

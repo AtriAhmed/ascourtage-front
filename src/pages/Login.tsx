@@ -44,12 +44,13 @@ const Login: React.FC = () => {
   function handleSubmit(e: any) {
     e.preventDefault()
     axios.post('/api/login', { username: loginInput.username, password: loginInput.password }).then(res => {
-      console.log(res.data)
       setUser(res.data.user)
       localStorage.setItem('token', res.data.token);
-      // if (res.data.user.role > 0) navigate("/admin");
-      // else 
-      history.push("/dashboard");
+      console.log(res.data.user)
+      console.log(res.data.user.account_owner > 0)
+      if (res.data.user.account_owner > 0) history.push("/admin/dashboard")
+      else
+        history.push("/dashboard");
     }
     ).catch((err: any) => {
       console.log(err)

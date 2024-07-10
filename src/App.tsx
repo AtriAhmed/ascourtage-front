@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonPage, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
@@ -30,6 +30,9 @@ import BordereauDecomptes from './pages/user/BordereauDecomptes';
 import CirclesLoading from './components/Loadings/CirclesLoading';
 import DecomptesPage from './pages/user/DecomptesPage';
 import CumulPrestataires from './pages/user/CumulPrestataires';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminTickets from './pages/admin/AdminTickets';
+import Users from './pages/admin/Users';
 
 setupIonicReact();
 
@@ -40,30 +43,36 @@ axios.interceptors.request.use(function (config) {
   return config;
 });
 
+const IS_ADMIN = true;
+
 const App: React.FC = () => {
   const { user, userLoading } = useAuthContext();
 
-  useEffect(()=>{
-console.log(user)
-  },[user])
+  function auth(cmp: ReactNode, isAdmin?: boolean) {
+    return userLoading ? <CirclesLoading /> : user && (user.account_owner || !isAdmin) ? cmp : <Redirect to="/login" />
+  }
 
   return (
     <IonApp>
       <IonReactRouter>
         <IonRouterOutlet onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
           <Route path="/home" component={Home} />
-          <Route path="/login" render={() => (userLoading ? <CirclesLoading /> : user ? <Redirect to="/dashboard" /> :<Login /> )} exact />
-          <Route path="/profile" render={() => (userLoading ? <CirclesLoading /> : user ? <Profile /> : <Redirect to="/login" />)} exact />
-          <Route path="/adherents" render={() => (userLoading ? <CirclesLoading /> : user ? <Adherents /> : <Redirect to="/login" />)} exact />
-          <Route path="/prestataires/by-adherent/:id" render={() => (userLoading ? <CirclesLoading /> : user ? <AdherentPrestataires /> : <Redirect to="/login" />)} exact />
-          <Route path="/prestataires" render={() => (userLoading ? <CirclesLoading /> : user ? <Prestataires /> : <Redirect to="/login" />)} exact />
-          <Route path="/bordereaux" render={() => (userLoading ? <CirclesLoading /> : user ? <Bordereaux /> : <Redirect to="/login" />)} exact />
-          <Route path="/decomptes/by-bordereau/:id" render={() => (userLoading ? <CirclesLoading /> : user ? <BordereauDecomptes /> : <Redirect to="/login" />)} exact />
-          <Route path="/decomptes" render={() => (userLoading ? <CirclesLoading /> : user ? <DecomptesPage /> : <Redirect to="/login" />)} exact />
-          <Route path="/cumul-prestataires" render={() => (userLoading ? <CirclesLoading /> : user ? <CumulPrestataires /> : <Redirect to="/login" />)} exact />
-          <Route path="/declaration" render={() => (userLoading ? <CirclesLoading /> : user ? <Declaration /> : <Redirect to="/login" />)} exact />
-          <Route path="/ticket" render={() => (userLoading ? <CirclesLoading /> : user ? <Ticket /> : <Redirect to="/login" />)} exact />
-          <Route path="/dashboard" render={() => (userLoading ? <CirclesLoading /> : user ? <Dashboard /> : <Redirect to="/login" />)} exact />
+          <Route path="/login" render={() => (userLoading ? <CirclesLoading /> : user && user.account_owner ? <Redirect to="/admin/dashboard" /> : user ? <Redirect to="/dashboard" /> : <Login />)} exact />
+          <Route path="/profile" render={() => auth(<Profile />)} exact />
+          <Route path="/adherents" render={() => auth(<Adherents />)} exact />
+          <Route path="/prestataires/by-adherent/:id" render={() => auth(<AdherentPrestataires />)} exact />
+          <Route path="/prestataires" render={() => auth(<Prestataires />)} exact />
+          <Route path="/bordereaux" render={() => auth(<Bordereaux />)} exact />
+          <Route path="/decomptes/by-bordereau/:id" render={() => auth(<BordereauDecomptes />)} exact />
+          <Route path="/decomptes" render={() => auth(<DecomptesPage />)} exact />
+          <Route path="/cumul-prestataires" render={() => auth(<CumulPrestataires />)} exact />
+          <Route path="/declaration" render={() => auth(<Declaration />)} exact />
+          <Route path="/assistance" render={() => auth(<Ticket />)} exact />
+          <Route path="/dashboard" render={() => auth(<Dashboard />)} exact />
+
+          <Route path="/admin/dashboard" render={() => auth(<AdminDashboard />, IS_ADMIN)} exact />
+          <Route path="/admin/tickets" render={() => auth(<AdminTickets />, IS_ADMIN)} exact />
+          <Route path="/admin/users" render={() => auth(<Users />, IS_ADMIN)} exact />
           <Redirect exact from="/" to="/home" />
         </IonRouterOutlet>
       </IonReactRouter>
