@@ -1,32 +1,27 @@
-import { IonAccordion, IonAccordionGroup, IonAvatar, IonBackButton, IonBadge, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonContent, IonFab, IonFabButton, IonGrid, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonList, IonMenu, IonMenuButton, IonModal, IonNote, IonPage, IonRow, IonSearchbar, IonText, IonTitle, IonToolbar } from '@ionic/react';
-import { menuController } from '@ionic/core/components';
-import { add, menu, searchCircle, searchCircleOutline } from "ionicons/icons";
+import { IonBackButton, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonIcon, IonModal, IonPage, IonSearchbar, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { menu, searchCircle } from "ionicons/icons";
 import { useHistory } from 'react-router';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useAuthContext } from '../../context/AuthProvider';
+import { useCallback, useEffect, useState } from 'react';
+import './AdherentsAdmin.css'
 import CustomSidebar from '../../components/layouts/user/UserSidebar';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import './AdminTickets.css'
 import Loading from '../../components/Loading';
-import { debounce } from 'lodash';
 import AdminSidebar from '../../components/layouts/admin/AdminSidebar';
+import { debounce } from 'lodash';
 
-const AdminTickets: React.FC = () => {
+const AdherentsAdmin: React.FC = () => {
     const history = useHistory();
-
     const [isExpanded, setIsExpanded] = useState(false);
-
-    const [tickets, setTickets] = useState([]);
+    const [adherents, setAdherents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
 
-    const fetchTickets = (query: string) => {
+    const fetchAdherents = (query: string) => {
         setLoading(true);
-        axios.get('/api/tickets', {
+        axios.get('/api/all-adherents', {
             params: { query }
         }).then(res => {
-            setTickets(res.data);
+            setAdherents(res.data);
         }).catch((err: any) => {
             if (err.response.status == 401) window.location.pathname = "/login"
         }).
@@ -35,10 +30,10 @@ const AdminTickets: React.FC = () => {
             });
     };
 
-    const debouncedFetchTickets = useCallback(debounce(fetchTickets, 500), []);
+    const debouncedFetchAdherents = useCallback(debounce(fetchAdherents, 500), []);
 
     useEffect(() => {
-        debouncedFetchTickets(searchQuery);
+        debouncedFetchAdherents(searchQuery);
     }, [searchQuery]);
 
     const handleSearchChange = (e: CustomEvent) => {
@@ -52,13 +47,14 @@ const AdminTickets: React.FC = () => {
     if (loading) return <Loading type='page' />
 
     return (
-        <IonPage>
+        <IonPage id="main-content">
+            <AdminSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
                         <IonBackButton></IonBackButton>
                     </IonButtons>
-                    <IonTitle>Tickets</IonTitle>
+                    <IonTitle>Adhérents</IonTitle>
                     <IonButtons slot='end' className='ml-2'>
                         <IonButton onClick={() => { setIsExpanded(!isExpanded) }} fill='clear' className='text-blue'>
                             <IonIcon icon={menu} className='' />
@@ -67,27 +63,26 @@ const AdminTickets: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-                <AdminSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 <div className='pl-[60px]'>
                     <IonSearchbar value={searchQuery} onIonInput={handleSearchChange} autocapitalize='none'></IonSearchbar>
                     <IonCard>
                         <IonCardHeader className='bg-gray-100'>
-                            <IonCardTitle>Liste des Tickets</IonCardTitle>
+                            <IonCardTitle>Liste des Adhérents</IonCardTitle>
                         </IonCardHeader>
                         <IonCardContent className=''>
                             <div className='grid grid-cols-12 font-bold text-black'>
-                                <div className='col-span-6 py-2'>Ticket</div>
+                                <div className='col-span-6 py-2'>Adhérent</div>
                                 <div className='col-span-6 py-2 justify-self-center place-self-center'>Action</div>
                             </div>
                             <div className='divide-y'>
-                                {tickets.map((ticket: any) =>
-                                    <div key={ticket.id} onClick={(e: any) => { if (!e.target.closest(".view")) history.push(`/prestataires/by-ticket/${ticket.Adherent}`) }} className='grid grid-cols-12 text-black'>
+                                {adherents.map((adherent: any) =>
+                                    <div key={adherent.Adherent} onClick={(e: any) => { if (!e.target.closest(".view")) history.push(`/prestataires/by-adherent/${adherent.Adherent}`) }} className='grid grid-cols-12 text-black'>
                                         <div className='col-span-6 py-2'>
-                                            <IonText className='block'>{ticket.id}</IonText>
-                                            <div className='flex gap-1'><IonText className='font-bold'>{ticket.user_name}</IonText>
-                                                <IonText>{ticket.created}</IonText></div>
+                                            <IonText className='block'>{adherent.Adherent}</IonText>
+                                            <div className='flex gap-1'><IonText className='font-bold'>{adherent.Nom}</IonText>
+                                                <IonText>{adherent.Prenom}</IonText></div>
                                         </div>
-                                        <div className='py-2 col-span-6 justify-self-center place-self-end'><IonButton className='view' fill='clear' id="open-modal" onClick={() => { setToView(ticket); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
+                                        <div className='py-2 col-span-6 justify-self-center place-self-end'><IonButton className='view' fill='clear' id="open-modal" onClick={() => { setToView(adherent); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
                                     </div>
                                 )}
                             </div>
@@ -96,7 +91,7 @@ const AdminTickets: React.FC = () => {
                     <IonModal id='example-modal' isOpen={showModal}>
                         <IonContent>
                             <IonToolbar className='tool'>
-                                <IonTitle>Détailles Ticket</IonTitle>
+                                <IonTitle>Détailles Adhérent</IonTitle>
                                 <IonButtons slot="end">
                                     <IonButton color="light" onClick={() => setShowModal(false)}>
                                         Fermer
@@ -137,4 +132,4 @@ const AdminTickets: React.FC = () => {
     )
 };
 
-export default AdminTickets;
+export default AdherentsAdmin;

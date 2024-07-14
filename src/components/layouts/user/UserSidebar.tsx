@@ -1,24 +1,24 @@
 import React, { useRef, useState } from 'react';
 import { IonAccordion, IonAccordionGroup, IonIcon, IonItem, IonLabel, IonList } from '@ionic/react';
-import { peopleOutline, cashOutline, homeOutline, personOutline, helpCircleOutline, logOutOutline, people, cash, home, helpCircle, person, logOut } from 'ionicons/icons';
+import { peopleOutline, cashOutline, homeOutline, personOutline, helpCircleOutline, logOutOutline, people, cash, home, helpCircle, person, logOut, apps } from 'ionicons/icons';
 import { useHistory } from 'react-router';
-import './CustomSidebar.css'
-import { useAuthContext } from '../context/AuthProvider';
+import './UserSidebar.css'
+import { useAuthContext } from '../../../context/AuthProvider';
 
-const BUTTON_STYLE = "text-2xl !text-[#082374] flex justify-start items-center relative";
+const BUTTON_STYLE = "text-2xl !text-primary flex justify-start items-center relative";
 
-const LABEL_STYLE = "!text-sm !truncate !text-[#082374] truncate";
+const LABEL_STYLE = "!text-sm !truncate !text-primary truncate";
 
 const ITEM_STYLE = 'w-full ml-10 truncate';
 
 const ACC_STYLE = "!text-sm ml-10 truncate"
 
-interface CustomSidebarProps {
+interface UserSidebarProps {
     isExpanded: boolean,
     setIsExpanded: (value: boolean) => void;
 }
 
-const CustomSidebar: React.FC<CustomSidebarProps> = ({ isExpanded, setIsExpanded }) => {
+const UserSidebar: React.FC<UserSidebarProps> = ({ isExpanded, setIsExpanded }) => {
 
     const { setUser } = useAuthContext();
     function logout() {
@@ -75,6 +75,13 @@ const CustomSidebar: React.FC<CustomSidebarProps> = ({ isExpanded, setIsExpanded
             {isExpanded && <div className='absolute w-screen h-full z-0' onClick={(e: any) => { if (!e.target.closest(".sidebar")) setIsExpanded(false) }}></div>}
             <IonAccordionGroup className='w-full h-full relative z-10 sidebar' onClick={() => { if (!isExpanded) setIsExpanded(true) }}>
                 <div className={`flex flex-col ${isExpanded ? "gap-2" : "gap-14"} p-4 ${isExpanded ? "" : "pt-10"}`}>
+
+                    <div className={`${BUTTON_STYLE}`}>
+                        <IonIcon icon={apps} slot="start" className='absolute' />
+                        {isExpanded && <IonItem className={`${ITEM_STYLE}`} onClick={() => navigateAndCloseMenu("/dashboard")}>
+                            <IonLabel className={`${LABEL_STYLE}`}>Dashboard</IonLabel>
+                        </IonItem>}
+                    </div>
 
                     <div className={`${BUTTON_STYLE}`}
                     // onClick={() => navigateAndCloseMenu('/adherents')}
@@ -144,4 +151,4 @@ const CustomSidebar: React.FC<CustomSidebarProps> = ({ isExpanded, setIsExpanded
     );
 };
 
-export default CustomSidebar;
+export default UserSidebar;

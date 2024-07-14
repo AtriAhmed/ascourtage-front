@@ -1,11 +1,15 @@
 import { IonAccordion, IonAccordionGroup, IonBadge, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonContent, IonFab, IonFabButton, IonGrid, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonList, IonMenu, IonMenuButton, IonNote, IonPage, IonRow, IonSearchbar, IonText, IonTitle, IonToolbar } from '@ionic/react';
-import { menu, warning } from "ionicons/icons";
+import { arrowDownCircle, download, menu, warning } from "ionicons/icons";
 import { useHistory } from 'react-router';
-import CirclesLoading from '../../components/Loadings/CirclesLoading';
+import Loading from '../../components/Loading';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import CustomSidebar from '../../components/CustomSidebar';
+import CustomSidebar from '../../components/layouts/user/UserSidebar';
 import { useAuthContext } from '../../context/AuthProvider';
+
+function formatFileName(fileName: string) {
+  return fileName.replace(/uploads\//g, '');
+}
 
 const Declaration: React.FC = () => {
   const history = useHistory();
@@ -19,11 +23,12 @@ const Declaration: React.FC = () => {
   const [uploading, setUploading] = useState(false); // State for upload process
 
   useEffect(() => {
-    axios.get('/api/declaration-salaire')
+    axios.get('/api/user-declarations')
       .then(res => {
         setDeclarations(res.data);
-      })
-      .finally(() => {
+      }).catch((err: any) => {
+        if (err.response.status == 401) window.location.pathname = "/login"
+      }).finally(() => {
         setLoading(false)
       })
   }, []);
@@ -63,11 +68,10 @@ const Declaration: React.FC = () => {
     }
   };
 
-  if (loading) return <CirclesLoading />;
+  if (loading) return <Loading type='page' />;
 
   return (
     <IonPage id="main-content">
-      <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
       <IonHeader>
         <IonToolbar>
           <IonButtons slot='start' className='ml-2'>
@@ -79,13 +83,14 @@ const Declaration: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="">
+        <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
         <div className='pl-[60px]'>
           <div className='bg-yellow-200 rounded p-2 m-2'>
             <IonText className='font-semibold flex items-center gap-2'>Merci de télécharger vos fichiers au format: xls ou xlsx <IonIcon icon={warning} className='text-4xl' /></IonText>
           </div>
           <div className='mx-2 px-2 pt-2 gap-2 flex flex-col'>
             <input type="file" className='rounded-lg' onChange={handleFileChange} />
-            <IonButton onClick={handleUpload} disabled={uploading}>Télécharger</IonButton>
+            <IonButton onClick={handleUpload} disabled={uploading} className='blue'>Télécharger</IonButton>
           </div>
           <IonCard>
             <IonCardHeader className='bg-gray-100'>
@@ -102,7 +107,10 @@ const Declaration: React.FC = () => {
                     <div className='col-span-4 py-2 flex flex-col '>
                       <IonText >{declaration.date}</IonText>
                     </div>
-                    <div className='py-2 col-span-8 justify-self-center place-self-center break-all'>{declaration.file}</div>
+                    <a className='py-2 col-span-8 break-all flex flex-col justify-center items-center' download href={`https://sante.ascourtage.tn/users/${declaration.file}`}>
+                      {formatFileName(declaration.file)}
+                      <IonIcon icon={arrowDownCircle} className='text-2xl text-primary' />
+                    </a>
                   </div>
                 ))}
               </div>

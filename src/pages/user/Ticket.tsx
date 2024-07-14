@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import "./Ticket.css"
 import { useState } from 'react';
 import axios from 'axios';
-import CustomSidebar from '../../components/CustomSidebar';
+import CustomSidebar from '../../components/layouts/user/UserSidebar';
 const Ticket: React.FC = () => {
   const history = useHistory();
 

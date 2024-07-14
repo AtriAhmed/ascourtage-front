@@ -5,9 +5,9 @@ import { useHistory } from 'react-router';
 import './AdminSidebar.css'
 import { useAuthContext } from '../../../context/AuthProvider';
 
-const BUTTON_STYLE = "text-2xl !text-[#082374] flex justify-start items-center relative";
+const BUTTON_STYLE = "text-2xl !text-primary flex justify-start items-center relative";
 
-const LABEL_STYLE = "!text-sm !truncate !text-[#082374] truncate";
+const LABEL_STYLE = "!text-sm !truncate !text-primary truncate";
 
 const ITEM_STYLE = 'w-full ml-10 truncate';
 
@@ -87,33 +87,22 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isExpanded, setIsExpanded }
                         <IonIcon icon={people} slot="start" className={`absolute`} />
                         {isExpanded && <IonAccordion value="first" className={`${ACC_STYLE}`}>
                             <IonItem slot="header" >
-                                <IonLabel className={`${LABEL_STYLE}`}>Adhérents</IonLabel>
+                                <IonLabel className={`${LABEL_STYLE}`}>Listes et Etats</IonLabel>
                             </IonItem>
-                            <div className="p-4 pl-8" slot="content" onClick={() => { navigateAndCloseMenu("/adherents") }}>
-                                Liste de adhérents
+                            <div className="p-4 pl-8" slot="content" onClick={() => { navigateAndCloseMenu("/admin/adherents") }}>
+                                Liste des adhérents
                             </div>
-                            <div className="p-4 pl-8" slot="content" onClick={() => { navigateAndCloseMenu("/prestataires"); }}>
-                                Liste des prestataires
+                            <div className="p-4 pl-8" slot="content" onClick={() => { navigateAndCloseMenu("/admin/bordereaux"); }}>
+                                Liste des bordereaux
                             </div>
                         </IonAccordion>}
                     </div>
 
                     <div className={`${BUTTON_STYLE}`}>
-                        <IonIcon icon={cash} slot="start" className='absolute' />
-                        {isExpanded && <IonAccordion value="second" className={`${ACC_STYLE}`}>
-                            <IonItem slot="header">
-                                <IonLabel className={`${LABEL_STYLE}`}>Remboursements</IonLabel>
-                            </IonItem>
-                            <div className="p-4 pl-8" slot="content" onClick={() => navigateAndCloseMenu("/bordereaux")}>
-                                Bordereaux
-                            </div>
-                            <div className="p-4 pl-8" slot="content" onClick={() => navigateAndCloseMenu("/decomptes")}>
-                                Recherche decomptes
-                            </div>
-                            <div className="p-4 pl-8" slot="content" onClick={() => navigateAndCloseMenu("/cumul-prestataires")}>
-                                Consommation prestataires
-                            </div>
-                        </IonAccordion>}
+                        <IonIcon icon={people} slot="start" className='absolute' />
+                        {isExpanded && <IonItem className={`${ITEM_STYLE}`} onClick={() => navigateAndCloseMenu("/admin/declarations")}>
+                            <IonLabel className={`${LABEL_STYLE}`}>Declarations</IonLabel>
+                        </IonItem>}
                     </div>
 
                     <div className={`${BUTTON_STYLE}`}>

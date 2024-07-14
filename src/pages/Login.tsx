@@ -1,28 +1,29 @@
 import { IonBadge, IonButton, IonButtons, IonCard, IonCheckbox, IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonList, IonNote, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-
-import { add } from "ionicons/icons";
 import { useHistory } from 'react-router';
 import './Login.css'
 import { Keyboard } from '@capacitor/keyboard';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuthContext } from '../context/AuthProvider';
-import CirclesLoading from '../components/Loadings/CirclesLoading';
+import Loading from '../components/Loading';
+
+const isEmail = (input: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(input);
+};
 
 const Login: React.FC = () => {
+
   const history = useHistory();
 
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
 
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', () => {
-      console.log("hello")
       setKeyboardIsOpen(true);
     });
 
     Keyboard.addListener('keyboardDidHide', () => {
-      console.log("hello")
       setKeyboardIsOpen(false);
     });
   });
@@ -41,19 +42,23 @@ const Login: React.FC = () => {
     setLogin({ ...loginInput, [target.name]: e.detail.value })
   }
 
-  function handleSubmit(e: any) {
-    e.preventDefault()
-    axios.post('/api/login', { username: loginInput.username, password: loginInput.password }).then(res => {
+  function handleSubmit() {
+
+    const data: any = { password: loginInput.password }
+
+    if (isEmail(loginInput.username))
+      data.email = loginInput.username;
+    else
+      data.username = loginInput.username;
+
+    axios.post('/api/login', data).then(res => {
       setUser(res.data.user)
       localStorage.setItem('token', res.data.token);
-      console.log(res.data.user)
-      console.log(res.data.user.account_owner > 0)
       if (res.data.user.account_owner > 0) history.push("/admin/dashboard")
       else
         history.push("/dashboard");
     }
     ).catch((err: any) => {
-      console.log(err)
       const response = err?.response;
       console.log(response)
       if (response.status == 401)
@@ -62,10 +67,8 @@ const Login: React.FC = () => {
     )
   }
 
-
   return (
     <IonPage>
-
       <IonContent fullscreen>
         <div className='h-full flex flex-col justify-between items-center'>
           <div className={`h-full flex items-center ${keyboardIsOpen ? 'hidden' : ''}`} >
@@ -86,16 +89,11 @@ const Login: React.FC = () => {
             <span className='text-red-500'>
               {error}
             </span>
-            <IonButton className='blue' expand='block' shape="round" onClick={(e) => handleSubmit(e)}>S'identifier</IonButton>
+            <IonButton className='blue' expand='block' shape="round" onClick={(e) => handleSubmit()}>S'identifier</IonButton>
 
           </div>
         </div>
 
-        {/* <IonFab vertical="bottom" horizontal="end" slot="fixed">
-          <IonFabButton onClick={() => history.push('/new')}>
-            <IonIcon icon={add} />
-          </IonFabButton>
-        </IonFab> */}
       </IonContent>
     </IonPage>
   );

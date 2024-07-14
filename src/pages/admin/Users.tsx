@@ -1,11 +1,13 @@
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonContent, IonFab, IonFabButton, IonGrid, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonList, IonMenu, IonMenuButton, IonModal, IonNote, IonPage, IonRow, IonSearchbar, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonContent, IonFab, IonFabButton, IonGrid, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonList, IonMenu, IonMenuButton, IonModal, IonNote, IonPage, IonRow, IonSearchbar, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { add, menu, searchCircle, searchCircleOutline } from "ionicons/icons";
 import { useHistory } from 'react-router';
-import { useEffect, useRef, useState } from 'react';
-import CustomSidebar from '../../components/CustomSidebar';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import CustomSidebar from '../../components/layouts/user/UserSidebar';
 import axios from 'axios';
-import CirclesLoading from '../../components/Loadings/CirclesLoading';
+import Loading from '../../components/Loading';
 import './Users.css'
+import AdminSidebar from '../../components/layouts/admin/AdminSidebar';
+import { debounce } from 'lodash';
 
 const Users: React.FC = () => {
     const history = useHistory();
@@ -14,36 +16,56 @@ const Users: React.FC = () => {
 
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const fetchUsers = (query: string) => {
+        setLoading(true);
+        axios.get('/api/users', {
+            params: { query }
+        }).then(res => {
+            setUsers(res.data);
+        }).catch((err: any) => {
+            if (err.response.status == 401) window.location.pathname = "/login"
+        }).
+            finally(() => {
+                setLoading(false);
+            });
+    };
+
+    const debouncedFetchUsers = useCallback(debounce(fetchUsers, 500), []);
 
     useEffect(() => {
-        axios.get('/api/users').then(res => {
-            setUsers(res.data);
-        }).finally(() => {
-            setLoading(false)
-        })
-    }, [])
+        debouncedFetchUsers(searchQuery);
+    }, [searchQuery]);
+
+    const handleSearchChange = (e: CustomEvent) => {
+        setSearchQuery(e.detail.value);
+    };
 
     const [toView, setToView] = useState<any>(null);
     const [showModal, setShowModal] = useState(false);
 
-    if (loading) return <CirclesLoading />
+    if (loading) return <Loading type='page' />
 
     return (
-        <IonPage id="main-content">
-            <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+        <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonButtons slot='start' className='ml-2'>
+                    <IonButtons slot="start">
+                        <IonBackButton></IonBackButton>
+                    </IonButtons>
+                    <IonTitle>Users</IonTitle>
+                    <IonButtons slot='end' className='ml-2'>
                         <IonButton onClick={() => { setIsExpanded(!isExpanded) }} fill='clear' className='text-blue'>
                             <IonIcon icon={menu} className='' />
                         </IonButton>
                     </IonButtons>
-                    <IonTitle>Users</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
+                <AdminSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 <div className='pl-[60px]'>
-                    <IonSearchbar autocapitalize=''></IonSearchbar>
+                    <IonSearchbar value={searchQuery} onIonInput={handleSearchChange} autocapitalize='none'></IonSearchbar>
                     <IonCard>
                         <IonCardHeader className='bg-gray-100'>
                             <IonCardTitle>Liste des Users</IonCardTitle>

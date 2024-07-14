@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect, ReactNode, createContext } from "react";
 import axios from "axios";
+import { useHistory } from "react-router";
+import { useIonRouter } from "@ionic/react";
 
 const AuthContext = createContext({
   user: undefined as any,

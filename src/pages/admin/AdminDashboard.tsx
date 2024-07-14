@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonImg, IonText, IonIcon, IonButtons } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonImg, IonText, IonIcon, IonButtons, IonBackButton } from '@ionic/react';
 import { menu } from 'ionicons/icons';
-import CustomSidebar from '../../components/CustomSidebar';
+import CustomSidebar from '../../components/layouts/user/UserSidebar';
 import { useAuthContext } from '../../context/AuthProvider';
 import AdminSidebar from '../../components/layouts/admin/AdminSidebar';
 
@@ -13,18 +13,21 @@ const AdminDashboard: React.FC = () => {
     return (
 
         <IonPage id="main-content">
-            <AdminSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
             <IonHeader>
                 <IonToolbar className=''>
-                    <IonButtons slot='start' className='ml-2'>
+                    <IonButtons slot="start">
+                        <IonBackButton></IonBackButton>
+                    </IonButtons>
+                    <IonTitle>Admin Dashboard</IonTitle>
+                    <IonButtons slot='end' className='ml-2'>
                         <IonButton onClick={() => { setIsExpanded(!isExpanded) }} fill='clear' className='text-blue'>
                             <IonIcon icon={menu} className='' />
                         </IonButton>
                     </IonButtons>
-                    <IonTitle>Admin Dashboard</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
+                <AdminSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 <div className='pl-[60px]'>
                     <div className='grid grid-cols-12'>
                         <div className='col-span-6'>
