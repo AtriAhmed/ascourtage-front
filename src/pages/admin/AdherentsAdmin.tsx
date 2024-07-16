@@ -48,7 +48,6 @@ const AdherentsAdmin: React.FC = () => {
 
     return (
         <IonPage id="main-content">
-            <AdminSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
@@ -63,6 +62,7 @@ const AdherentsAdmin: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
+                <AdminSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 <div className='pl-[60px]'>
                     <IonSearchbar value={searchQuery} onIonInput={handleSearchChange} autocapitalize='none'></IonSearchbar>
                     <IonCard>

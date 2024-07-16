@@ -68,8 +68,6 @@ const Declaration: React.FC = () => {
     }
   };
 
-  if (loading) return <Loading type='page' />;
-
   return (
     <IonPage id="main-content">
       <IonHeader>
@@ -97,23 +95,25 @@ const Declaration: React.FC = () => {
               <IonCardTitle>Déclaration des salaires</IonCardTitle>
             </IonCardHeader>
             <IonCardContent className=''>
-              <div className='grid grid-cols-12 font-bold text-black'>
-                <div className='col-span-6 py-2'>Date</div>
-                <div className='col-span-6 py-2 justify-self-center place-self-center'>Fichier</div>
-              </div>
-              <div className='divide-y'>
-                {declarations.map((declaration: any) => (
-                  <div key={declaration.id} className='grid grid-cols-12 text-black'>
-                    <div className='col-span-4 py-2 flex flex-col '>
-                      <IonText >{declaration.date}</IonText>
+              {loading ? <Loading type='' /> : <>
+                <div className='grid grid-cols-12 font-bold text-black'>
+                  <div className='col-span-6 py-2'>Date</div>
+                  <div className='col-span-6 py-2 justify-self-center place-self-center'>Fichier</div>
+                </div>
+                <div className='divide-y'>
+                  {declarations.map((declaration: any) => (
+                    <div key={declaration.id} className='grid grid-cols-12 text-black'>
+                      <div className='col-span-4 py-2 flex flex-col '>
+                        <IonText >{declaration.date}</IonText>
+                      </div>
+                      <a className='py-2 col-span-8 break-all flex flex-col justify-center items-center' download href={`https://sante.ascourtage.tn/users/${declaration.file}`}>
+                        {formatFileName(declaration.file)}
+                        <IonIcon icon={arrowDownCircle} className='text-2xl text-primary' />
+                      </a>
                     </div>
-                    <a className='py-2 col-span-8 break-all flex flex-col justify-center items-center' download href={`https://sante.ascourtage.tn/users/${declaration.file}`}>
-                      {formatFileName(declaration.file)}
-                      <IonIcon icon={arrowDownCircle} className='text-2xl text-primary' />
-                    </a>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              </>}
             </IonCardContent>
           </IonCard>
         </div>

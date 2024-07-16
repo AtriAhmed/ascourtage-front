@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonImg, IonText, IonIcon, IonButtons } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonImg, IonText, IonIcon, IonButtons, IonBackButton } from '@ionic/react';
 import { menu } from 'ionicons/icons';
 import UserSidebar from '../components/layouts/user/UserSidebar';
 import { useAuthContext } from '../context/AuthProvider';
 import User from '../models/User';
 import Loading from '../components/Loading';
 import { useHistory } from 'react-router';
+import AdminSidebar from '../components/layouts/admin/AdminSidebar';
 
 const Profile: React.FC = () => {
   const { user }: { user: User } = useAuthContext();
@@ -19,16 +20,19 @@ const Profile: React.FC = () => {
     <IonPage id="main-content">
       <IonHeader>
         <IonToolbar className=''>
-          <IonButtons slot='start' className='ml-2'>
+          <IonButtons slot="start">
+            <IonBackButton></IonBackButton>
+          </IonButtons>
+          <IonTitle>Profile</IonTitle>
+          <IonButtons slot='end'>
             <IonButton onClick={() => { setIsExpanded(!isExpanded) }} fill='clear' className='text-blue'>
               <IonIcon icon={menu} className='' />
             </IonButton>
           </IonButtons>
-          <IonTitle>Profile</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <UserSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+        {user.account_owner ? <AdminSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} /> : <UserSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />}
         <div className='pl-[60px]'>
           <IonCard>
             <IonCardContent>

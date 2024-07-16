@@ -82,8 +82,9 @@ const BordereauxAdmin: React.FC = () => {
                                             <div key={bordereau.Bordereau} onClick={(e: any) => { if (!e.target.closest(".view")) history.push(`/decomptes/by-bordereau/${bordereau.Bordereau}`) }} className='grid grid-cols-12 text-black'>
                                                 <div className='col-span-6 py-2'>
                                                     <IonText className='block'>{bordereau.Bordereau}</IonText>
-                                                    <div className='flex gap-1'><IonText className='font-bold'>{bordereau.Entreprise}</IonText>
-                                                        <IonText>{bordereau.Total}</IonText></div>
+                                                    <div className='flex gap-1'><IonText className='font-bold'>{bordereau.MontantTotal} DT</IonText>
+                                                        {/* <IonText>{bordereau.MontantTotal}</IonText> */}
+                                                    </div>
                                                 </div>
                                                 <div className='py-2 col-span-6 justify-self-center place-self-end'><IonButton className='view' fill='clear' id="open-modal" onClick={() => { setToView(bordereau); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
                                             </div>
@@ -106,27 +107,23 @@ const BordereauxAdmin: React.FC = () => {
                             <div className='ion-padding'>
                                 <div className='flex gap-2'>
                                     <IonText className='font-bold'>Bordereau:</IonText>
-                                    <IonText className=''>{toView?.id}</IonText>
+                                    <IonText className=''>{toView?.Bordereau}</IonText>
                                 </div>
                                 <div className='flex gap-2'>
-                                    <IonText className='font-bold'>Date Entrée:</IonText>
-                                    <IonText className=''>{toView?.Dateentree}</IonText>
+                                    <IonText className='font-bold'>Decomptes:</IonText>
+                                    <IonText className=''>{toView?.Decomptes}</IonText>
                                 </div>
                                 <div className='flex gap-2'>
-                                    <IonText className='font-bold'>Nom:</IonText>
-                                    <IonText className=''>{toView?.Nom}</IonText>
+                                    <IonText className='font-bold'>Premier N:</IonText>
+                                    <IonText className=''>{toView?.PremierN}</IonText>
                                 </div>
                                 <div className='flex gap-2'>
-                                    <IonText className='font-bold'>Prénom:</IonText>
-                                    <IonText className=''>{toView?.Prenom}</IonText>
+                                    <IonText className='font-bold'>Dernier N:</IonText>
+                                    <IonText className=''>{toView?.DernierN}</IonText>
                                 </div>
                                 <div className='flex gap-2'>
-                                    <IonText className='font-bold'>Date de naissance:</IonText>
-                                    <IonText className=''>{toView?.Datenaissance}</IonText>
-                                </div>
-                                <div className='flex gap-2'>
-                                    <IonText className='font-bold'>RIB:</IonText>
-                                    <IonText className=''>{toView?.RIB}</IonText>
+                                    <IonText className='font-bold'>Montant total:</IonText>
+                                    <IonText className=''>{toView?.MontantTotal} DT</IonText>
                                 </div>
                             </div>
                         </IonContent>

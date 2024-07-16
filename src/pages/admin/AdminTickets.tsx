@@ -48,9 +48,6 @@ const AdminTickets: React.FC = () => {
     const [toView, setToView] = useState<any>(null);
     const [showModal, setShowModal] = useState(false);
 
-
-    if (loading) return <Loading type='page' />
-
     return (
         <IonPage>
             <IonHeader>
@@ -74,23 +71,31 @@ const AdminTickets: React.FC = () => {
                         <IonCardHeader className='bg-gray-100'>
                             <IonCardTitle>Liste des Tickets</IonCardTitle>
                         </IonCardHeader>
-                        <IonCardContent className=''>
-                            <div className='grid grid-cols-12 font-bold text-black'>
-                                <div className='col-span-6 py-2'>Ticket</div>
-                                <div className='col-span-6 py-2 justify-self-center place-self-center'>Action</div>
-                            </div>
-                            <div className='divide-y'>
-                                {tickets.map((ticket: any) =>
-                                    <div key={ticket.id} onClick={(e: any) => { if (!e.target.closest(".view")) history.push(`/prestataires/by-ticket/${ticket.Adherent}`) }} className='grid grid-cols-12 text-black'>
-                                        <div className='col-span-6 py-2'>
-                                            <IonText className='block'>{ticket.id}</IonText>
-                                            <div className='flex gap-1'><IonText className='font-bold'>{ticket.user_name}</IonText>
-                                                <IonText>{ticket.created}</IonText></div>
+                        <IonCardContent className='p-1 text-xs'>
+                            {loading ? <Loading type='' /> : <>
+                                <div className='grid grid-cols-12 font-bold text-black'>
+                                    <div className='col-span-3 py-2'>User</div>
+                                    <div className='col-span-4 py-2'>Sujet</div>
+                                    <div className='col-span-4 py-2'>Date</div>
+                                </div>
+                                <div className='divide-y'>
+                                    {tickets.map((ticket: any) =>
+                                        <div key={ticket.id} onClick={(e: any) => { if (!e.target.closest(".view")) history.push(`/admin/tickets/${ticket.id}`) }} className='grid grid-cols-12 text-black'>
+                                            <div className='col-span-3 py-2 place-self-center justify-self-start'>
+                                                <IonText className='' >{ticket.user_name}</IonText>
+                                            </div>
+                                            <div className='col-span-4 py-2 place-self-center justify-self-start break-all'>
+                                                <IonText className=''>{ticket.subject}</IonText>
+                                            </div>
+                                            <div className='col-span-4 py-2 place-self-center'>
+                                                <IonText className=''>{ticket.created}</IonText>
+                                            </div>
+                                            <div className='py-2 col-span-1 justify-self-center place-self-end'><IonButton className='view' fill='clear' id="open-modal" onClick={() => { setToView(ticket); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
                                         </div>
-                                        <div className='py-2 col-span-6 justify-self-center place-self-end'><IonButton className='view' fill='clear' id="open-modal" onClick={() => { setToView(ticket); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
-                                    </div>
-                                )}
-                            </div>
+                                    )}
+                                </div>
+                            </>
+                            }
                         </IonCardContent>
                     </IonCard>
                     <IonModal id='example-modal' isOpen={showModal}>
@@ -105,28 +110,32 @@ const AdminTickets: React.FC = () => {
                             </IonToolbar>
                             <div className='ion-padding'>
                                 <div className='flex gap-2'>
-                                    <IonText className='font-bold'>Adherent:</IonText>
-                                    <IonText className=''>{toView?.Adherent}</IonText>
+                                    <IonText className='font-bold'>User:</IonText>
+                                    <IonText className=''>{toView?.user_name}</IonText>
                                 </div>
                                 <div className='flex gap-2'>
-                                    <IonText className='font-bold'>Date Entrée:</IonText>
-                                    <IonText className=''>{toView?.Dateentree}</IonText>
+                                    <IonText className='font-bold'>Agent:</IonText>
+                                    <IonText className=''>{toView?.agent}</IonText>
                                 </div>
                                 <div className='flex gap-2'>
-                                    <IonText className='font-bold'>Nom:</IonText>
-                                    <IonText className=''>{toView?.Nom}</IonText>
+                                    <IonText className='font-bold'>Subject:</IonText>
+                                    <IonText className=''>{toView?.subject}</IonText>
                                 </div>
                                 <div className='flex gap-2'>
-                                    <IonText className='font-bold'>Prénom:</IonText>
-                                    <IonText className=''>{toView?.Prenom}</IonText>
+                                    <IonText className='font-bold'>Status:</IonText>
+                                    <IonText className=''>{toView?.status}</IonText>
                                 </div>
                                 <div className='flex gap-2'>
-                                    <IonText className='font-bold'>Date de naissance:</IonText>
-                                    <IonText className=''>{toView?.Datenaissance}</IonText>
+                                    <IonText className='font-bold'>Department:</IonText>
+                                    <IonText className=''>{toView?.category}</IonText>
                                 </div>
                                 <div className='flex gap-2'>
-                                    <IonText className='font-bold'>RIB:</IonText>
-                                    <IonText className=''>{toView?.RIB}</IonText>
+                                    <IonText className='font-bold'>Created:</IonText>
+                                    <IonText className=''>{toView?.created}</IonText>
+                                </div>
+                                <div className='flex gap-2'>
+                                    <IonText className='font-bold'>Last updated:</IonText>
+                                    <IonText className=''>{toView?.last_updated}</IonText>
                                 </div>
                             </div>
                         </IonContent>

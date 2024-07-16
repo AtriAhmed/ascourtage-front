@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect } from 'react';
-import { Redirect, Route, useHistory } from 'react-router-dom';
-import { IonApp, IonPage, IonRouterOutlet, setupIonicReact, useIonRouter } from '@ionic/react';
+import { Redirect, Route } from 'react-router-dom';
+import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 import '@ionic/react/css/core.css';
@@ -38,6 +38,8 @@ import BordereauxAdmin from './pages/admin/BordereauxAdmin';
 import DecompteDetails from './pages/user/DecompteDetails';
 import CumulPrestatairesDetail from './pages/user/CumulPrestataireDetail';
 import ProfileEdit from './pages/ProfileEdit';
+import TicketAdmin from './pages/admin/TicketAdmin';
+import UserEdit from './pages/admin/UserEdit';
 
 setupIonicReact();
 
@@ -84,7 +86,12 @@ const App: React.FC = () => {
 
           <Route path="/admin/dashboard" render={() => auth(<AdminDashboard />, IS_ADMIN)} exact />
           <Route path="/admin/tickets" render={() => auth(<AdminTickets />, IS_ADMIN)} exact />
+          <Route path="/admin/tickets/:id" render={() => auth(<TicketAdmin />, IS_ADMIN)} exact />
           <Route path="/admin/users" render={() => auth(<Users />, IS_ADMIN)} exact />
+          <Route path="/admin/users/:id" render={() => auth(<UserEdit />, IS_ADMIN)} exact />
+          <Route path="/admin/bordereaux" render={() => auth(<BordereauxAdmin />, IS_ADMIN)} exact />
+          <Route path="/admin/adherents" render={() => auth(<AdherentsAdmin />, IS_ADMIN)} exact />
+          <Route path="/admin/declarations" render={() => auth(<Declarations />, IS_ADMIN)} exact />
           <Redirect exact from="/" to="/home" />
         </IonRouterOutlet>
       </IonReactRouter>

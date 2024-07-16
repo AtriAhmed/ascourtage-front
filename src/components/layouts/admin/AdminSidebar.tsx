@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { IonAccordion, IonAccordionGroup, IonIcon, IonItem, IonLabel, IonList } from '@ionic/react';
-import { peopleOutline, cashOutline, homeOutline, personOutline, helpCircleOutline, logOutOutline, people, cash, home, helpCircle, person, logOut } from 'ionicons/icons';
+import { peopleOutline, cashOutline, homeOutline, personOutline, helpCircleOutline, logOutOutline, people, cash, home, helpCircle, person, logOut, apps, list, calculator } from 'ionicons/icons';
 import { useHistory } from 'react-router';
 import './AdminSidebar.css'
 import { useAuthContext } from '../../../context/AuthProvider';
@@ -81,10 +81,17 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isExpanded, setIsExpanded }
             <IonAccordionGroup className='w-full h-full relative z-10 sidebar' onClick={() => { if (!isExpanded) setIsExpanded(true) }}>
                 <div className={`flex flex-col ${isExpanded ? "gap-2" : "gap-14"} p-4 ${isExpanded ? "" : "pt-10"}`}>
 
+                    <div className={`${BUTTON_STYLE}`}>
+                        <IonIcon icon={apps} slot="start" className='absolute' />
+                        {isExpanded && <IonItem className={`${ITEM_STYLE}`} onClick={() => navigateAndCloseMenu("/admin/dashboard")}>
+                            <IonLabel className={`${LABEL_STYLE}`}>Dashboard</IonLabel>
+                        </IonItem>}
+                    </div>
+
                     <div className={`${BUTTON_STYLE}`}
                     // onClick={() => navigateAndCloseMenu('/adherents')}
                     >
-                        <IonIcon icon={people} slot="start" className={`absolute`} />
+                        <IonIcon icon={list} slot="start" className={`absolute`} />
                         {isExpanded && <IonAccordion value="first" className={`${ACC_STYLE}`}>
                             <IonItem slot="header" >
                                 <IonLabel className={`${LABEL_STYLE}`}>Listes et Etats</IonLabel>
@@ -99,7 +106,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isExpanded, setIsExpanded }
                     </div>
 
                     <div className={`${BUTTON_STYLE}`}>
-                        <IonIcon icon={people} slot="start" className='absolute' />
+                        <IonIcon icon={calculator} slot="start" className='absolute' />
                         {isExpanded && <IonItem className={`${ITEM_STYLE}`} onClick={() => navigateAndCloseMenu("/admin/declarations")}>
                             <IonLabel className={`${LABEL_STYLE}`}>Declarations</IonLabel>
                         </IonItem>}
@@ -115,7 +122,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isExpanded, setIsExpanded }
                     <button className={`${BUTTON_STYLE}`}>
                         <IonIcon icon={helpCircle} slot="start" className='absolute' />
                         {isExpanded && <IonItem className={`${ITEM_STYLE}`} onClick={() => navigateAndCloseMenu("/admin/tickets")}>
-                            <IonLabel className={`${LABEL_STYLE}`}>Assistance</IonLabel>
+                            <IonLabel className={`${LABEL_STYLE}`}>Tickets</IonLabel>
                         </IonItem>}
                     </button>
 

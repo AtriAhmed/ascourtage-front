@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { IonAccordion, IonAccordionGroup, IonIcon, IonItem, IonLabel, IonList } from '@ionic/react';
-import { peopleOutline, cashOutline, homeOutline, personOutline, helpCircleOutline, logOutOutline, people, cash, home, helpCircle, person, logOut, apps } from 'ionicons/icons';
+import { peopleOutline, cashOutline, homeOutline, personOutline, helpCircleOutline, logOutOutline, people, cash, home, helpCircle, person, logOut, apps, calculator } from 'ionicons/icons';
 import { useHistory } from 'react-router';
 import './UserSidebar.css'
 import { useAuthContext } from '../../../context/AuthProvider';
@@ -119,7 +119,7 @@ const UserSidebar: React.FC<UserSidebarProps> = ({ isExpanded, setIsExpanded }) 
                     </div>
 
                     <div className={`${BUTTON_STYLE}`}>
-                        <IonIcon icon={home} slot="start" className='absolute' />
+                        <IonIcon icon={calculator} slot="start" className='absolute' />
                         {isExpanded && <IonItem className={`${ITEM_STYLE}`} onClick={() => navigateAndCloseMenu("/declaration")}>
                             <IonLabel className={`${LABEL_STYLE}`}>Déclaration salaires</IonLabel>
                         </IonItem>}

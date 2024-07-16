@@ -1,14 +1,26 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonImg, IonText, IonIcon, IonButtons, IonBackButton } from '@ionic/react';
+import React, { useState } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonIcon, IonButtons, IonBackButton } from '@ionic/react';
 import { menu } from 'ionicons/icons';
-import CustomSidebar from '../../components/layouts/user/UserSidebar';
-import { useAuthContext } from '../../context/AuthProvider';
 import AdminSidebar from '../../components/layouts/admin/AdminSidebar';
+import { useHistory } from 'react-router';
+
+const ROUTES = [{
+    path: '/admin/bordereaux',
+    label: 'Bordereaux'
+},
+{
+    path: '/admin/adherents',
+    label: 'Adherents'
+},
+{
+    path: '/profile',
+    label: 'Profile'
+},
+]
 
 const AdminDashboard: React.FC = () => {
-    const { user }: { user: any } = useAuthContext();
     const [isExpanded, setIsExpanded] = useState(false);
-
+    const history = useHistory();
 
     return (
 
@@ -30,27 +42,17 @@ const AdminDashboard: React.FC = () => {
                 <AdminSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 <div className='pl-[60px]'>
                     <div className='grid grid-cols-12'>
-                        <div className='col-span-6'>
-                            <IonCard>
-                                <IonCardContent>
-                                    Beaurdoraux
-                                </IonCardContent>
-                            </IonCard>
-                        </div>
-                        <div className='col-span-6'>
-                            <IonCard>
-                                <IonCardContent>
-                                    Adherents
-                                </IonCardContent>
-                            </IonCard>
-                        </div>
-                        <div className='col-span-6'>
-                            <IonCard>
-                                <IonCardContent>
-                                    Profile
-                                </IonCardContent>
-                            </IonCard>
-                        </div>
+                        {ROUTES.map((route, index) =>
+                            <div key={index} className='col-span-6'>
+                                {/* <Link to={route.path}> */}
+                                <IonCard onClick={() => history.push(route.path)}>
+                                    <IonCardContent className='border-l-8 border-primary'>
+                                        {route.label}
+                                    </IonCardContent>
+                                </IonCard>
+                                {/* </Link> */}
+                            </div>
+                        )}
                     </div>
                 </div>
             </IonContent>
