@@ -7,6 +7,7 @@ import User from '../models/User';
 import Loading from '../components/Loading';
 import axios from 'axios';
 import AdminSidebar from '../components/layouts/admin/AdminSidebar';
+import Header from '../components/layouts/Header';
 
 const ProfileEdit: React.FC = () => {
     const { user, setUser }: { user: User, setUser: (user: User) => void } = useAuthContext();
@@ -49,19 +50,7 @@ const ProfileEdit: React.FC = () => {
 
     return (
         <IonPage id="main-content">
-            <IonHeader>
-                <IonToolbar>
-                    <IonButtons slot="start">
-                        <IonBackButton></IonBackButton>
-                    </IonButtons>
-                    <IonTitle>Modifier Profile</IonTitle>
-                    <IonButtons slot='end' className='ml-2'>
-                        <IonButton onClick={() => { setIsExpanded(!isExpanded) }} fill='clear' className='text-blue'>
-                            <IonIcon icon={menu} />
-                        </IonButton>
-                    </IonButtons>
-                </IonToolbar>
-            </IonHeader>
+            <Header title='Modifier Profile' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
             <IonContent>
                 {user.account_owner ? <AdminSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} /> : <UserSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />}
                 <div className='pl-[60px]'>
@@ -74,7 +63,7 @@ const ProfileEdit: React.FC = () => {
                             <IonInput type='password' label="Mot de passe" onIonInput={handleInput} value={loginInput.password} name='password' labelPlacement="floating" />
                             <IonInput type='password' label="Confirmer le Mot de passe" onIonInput={handleInput} value={loginInput.password_confirmation} name='password_confirmation' labelPlacement="floating" />
                             <IonInput type='password' label="Ancien Mot de passe" onIonInput={handleInput} value={loginInput.oldPassword} name='oldPassword' labelPlacement="floating" />
-                            <div className='flex justify-center'><IonButton className='blue' onClick={handleSubmit}>Mise à jour</IonButton></div>
+                            <IonButton className='blue w-full font-bold' onClick={handleSubmit}>Mise à jour</IonButton>
                         </IonCardContent>
                     </IonCard>
                 </div>

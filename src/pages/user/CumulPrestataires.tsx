@@ -8,7 +8,9 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Loading from '../../components/Loading';
 import { debounce } from 'lodash';
-import "./CumulPrestataires.css"
+import "./CumulPrestataires.css";
+import { motion } from "framer-motion";
+import Header from '../../components/layouts/Header';
 
 const CumulPrestataires: React.FC = () => {
     const history = useHistory();
@@ -48,83 +50,78 @@ const CumulPrestataires: React.FC = () => {
 
     return (
         <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonButtons slot="start">
-                        <IonBackButton></IonBackButton>
-                    </IonButtons>
-                    <IonTitle>Consommation prestataires</IonTitle>
-                    <IonButtons slot='end' className='ml-2'>
-                        <IonButton onClick={() => { setIsExpanded(!isExpanded) }} fill='clear' className='text-blue'>
-                            <IonIcon icon={menu} className='' />
-                        </IonButton>
-                    </IonButtons>
-                </IonToolbar>
-            </IonHeader>
-            <IonContent>
-                <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
-                <div className='pl-[60px]'>
-                    <IonSearchbar value={searchQuery} onIonInput={handleSearchChange} autocapitalize='none'></IonSearchbar>
-                    <IonCard>
-                        <IonCardHeader className='bg-gray-100'>
-                            <IonCardTitle>Consommation prestataire</IonCardTitle>
-                        </IonCardHeader>
-                        <IonCardContent className='p-1'>
-                            {loading ? <Loading type='' /> :
-                                <>
-                                    <div className='grid grid-cols-12 font-bold text-black'>
-                                        <div className='col-span-6 py-2'>Prestataire</div>
-                                        <div className='col-span-6 py-2'>Montant (DT)</div>
-                                    </div>
-                                    <div className='divide-y'>
-                                        {decomptes?.map((decompte: any) =>
-                                            <Link to={`/cumul-prestataires/${decompte.Prestataire}`} key={decompte.Prestataire} className='grid grid-cols-12 text-black'>
-                                                <div className='col-span-6 py-2'>
-                                                    <IonText className='block'>{decompte.Prestataire}</IonText>
-                                                    <div className='flex gap-1'><IonText className='font-bold'>{decompte.Nometprenom}</IonText>
+            <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: "100%" }}
+                exit={{ x: window.innerWidth, transition: { duration: 0.1 } }}
+                className='h-full'
+            >
+                <Header title='Cumul Prestataires' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+                <IonContent>
+                    <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+                    <div className='pl-[60px]'>
+                        <IonSearchbar value={searchQuery} onIonInput={handleSearchChange} autocapitalize='none'></IonSearchbar>
+                        <IonCard>
+                            <IonCardHeader className='bg-gray-100'>
+                                <IonCardTitle>Consommation prestataire</IonCardTitle>
+                            </IonCardHeader>
+                            <IonCardContent className='p-1'>
+                                {loading ? <Loading type='' height='h-[calc(100vh-208px)]' /> :
+                                    <>
+                                        <div className='grid grid-cols-12 font-bold text-black'>
+                                            <div className='col-span-6 py-2'>Prestataire</div>
+                                            <div className='col-span-6 py-2'>Montant (DT)</div>
+                                        </div>
+                                        <div className='divide-y'>
+                                            {decomptes?.map((decompte: any) =>
+                                                <Link to={`/cumul-prestataires/${decompte.Prestataire}`} key={decompte.Prestataire} className='grid grid-cols-12 text-black'>
+                                                    <div className='col-span-6 py-2'>
+                                                        <IonText className='block'>{decompte.Prestataire}</IonText>
+                                                        <div className='flex gap-1'><IonText className='font-bold'>{decompte.Nometprenom}</IonText>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div className='col-span-5 place-self-center justify-self-start'><IonText>{decompte.TotalMontant}</IonText></div>
-                                                <div className='py-2 col-span-1 justify-self-end place-self-center'><IonButton fill='clear' id="open-modal" onClick={() => { setToView(decompte); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
-                                            </Link>
-                                        )}
+                                                    <div className='col-span-5 place-self-center justify-self-start'><IonText>{decompte.TotalMontant}</IonText></div>
+                                                    <div className='py-2 col-span-1 justify-self-end place-self-center'><IonButton fill='clear' id="open-modal" onClick={() => { setToView(decompte); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
+                                                </Link>
+                                            )}
+                                        </div>
+                                    </>
+                                }
+                            </IonCardContent>
+                        </IonCard>
+                        <IonModal id='example-modal' isOpen={showModal}>
+                            <IonContent>
+                                <IonToolbar className='tool'>
+                                    <IonTitle>Détailles Decompte</IonTitle>
+                                    <IonButtons slot="end">
+                                        <IonButton color="light" onClick={() => setShowModal(false)}>
+                                            Fermer
+                                        </IonButton>
+                                    </IonButtons>
+                                </IonToolbar>
+                                <div className='ion-padding'>
+                                    <div className='flex gap-2'>
+                                        <IonText className='font-bold'>Adherent:</IonText>
+                                        <IonText className=''>{toView?.Adherent}</IonText>
                                     </div>
-                                </>
-                            }
-                        </IonCardContent>
-                    </IonCard>
-                    <IonModal id='example-modal' isOpen={showModal}>
-                        <IonContent>
-                            <IonToolbar className='tool'>
-                                <IonTitle>Détailles Decompte</IonTitle>
-                                <IonButtons slot="end">
-                                    <IonButton color="light" onClick={() => setShowModal(false)}>
-                                        Fermer
-                                    </IonButton>
-                                </IonButtons>
-                            </IonToolbar>
-                            <div className='ion-padding'>
-                                <div className='flex gap-2'>
-                                    <IonText className='font-bold'>Adherent:</IonText>
-                                    <IonText className=''>{toView?.Adherent}</IonText>
+                                    <div className='flex gap-2'>
+                                        <IonText className='font-bold'>Prestataire:</IonText>
+                                        <IonText className=''>{toView?.Prestataire}</IonText>
+                                    </div>
+                                    <div className='flex gap-2'>
+                                        <IonText className='font-bold'>Nom et Prenom:</IonText>
+                                        <IonText className=''>{toView?.Nometprenom}</IonText>
+                                    </div>
+                                    <div className='flex gap-2'>
+                                        <IonText className='font-bold'>Montant:</IonText>
+                                        <IonText className=''>{toView?.TotalMontant} DT</IonText>
+                                    </div>
                                 </div>
-                                <div className='flex gap-2'>
-                                    <IonText className='font-bold'>Prestataire:</IonText>
-                                    <IonText className=''>{toView?.Prestataire}</IonText>
-                                </div>
-                                <div className='flex gap-2'>
-                                    <IonText className='font-bold'>Nom et Prenom:</IonText>
-                                    <IonText className=''>{toView?.Nometprenom}</IonText>
-                                </div>
-                                <div className='flex gap-2'>
-                                    <IonText className='font-bold'>Montant:</IonText>
-                                    <IonText className=''>{toView?.TotalMontant} DT</IonText>
-                                </div>
-                            </div>
-                        </IonContent>
-                    </IonModal>
-                </div>
-            </IonContent>
+                            </IonContent>
+                        </IonModal>
+                    </div>
+                </IonContent>
+            </motion.div>
         </IonPage>
     )
 };

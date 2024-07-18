@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import CustomSidebar from '../../components/layouts/user/UserSidebar';
 import { useAuthContext } from '../../context/AuthProvider';
+import { motion } from "framer-motion";
+import Header from '../../components/layouts/Header';
 
 function formatFileName(fileName: string) {
   return fileName.replace(/uploads\//g, '');
@@ -69,55 +71,53 @@ const Declaration: React.FC = () => {
   };
 
   return (
-    <IonPage id="main-content">
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot='start' className='ml-2'>
-            <IonButton onClick={() => { setIsExpanded(!isExpanded) }} fill='clear' className='text-blue'>
-              <IonIcon icon={menu} className='' />
-            </IonButton>
-          </IonButtons>
-          <IonTitle>Déclaration Salaires</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent className="">
-        <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
-        <div className='pl-[60px]'>
-          <div className='bg-yellow-200 rounded p-2 m-2'>
-            <IonText className='font-semibold flex items-center gap-2'>Merci de télécharger vos fichiers au format: xls ou xlsx <IonIcon icon={warning} className='text-4xl' /></IonText>
-          </div>
-          <div className='mx-2 px-2 pt-2 gap-2 flex flex-col'>
-            <input type="file" className='rounded-lg' onChange={handleFileChange} />
-            <IonButton onClick={handleUpload} disabled={uploading} className='blue'>Télécharger</IonButton>
-          </div>
-          <IonCard>
-            <IonCardHeader className='bg-gray-100'>
-              <IonCardTitle>Déclaration des salaires</IonCardTitle>
-            </IonCardHeader>
-            <IonCardContent className=''>
-              {loading ? <Loading type='' /> : <>
-                <div className='grid grid-cols-12 font-bold text-black'>
-                  <div className='col-span-6 py-2'>Date</div>
-                  <div className='col-span-6 py-2 justify-self-center place-self-center'>Fichier</div>
-                </div>
-                <div className='divide-y'>
-                  {declarations.map((declaration: any) => (
-                    <div key={declaration.id} className='grid grid-cols-12 text-black'>
-                      <div className='col-span-4 py-2 flex flex-col '>
-                        <IonText >{declaration.date}</IonText>
+    <IonPage>
+      <motion.div
+        initial={{ width: 0 }}
+        animate={{ width: "100%" }}
+        exit={{ x: window.innerWidth, transition: { duration: 0.1 } }}
+        className='h-full'
+      >
+        <Header title='Declaration Salaire' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+        <IonContent className="">
+          <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+          <div className='pl-[60px]'>
+            <div className='bg-yellow-200 rounded p-2 m-2'>
+              <IonText className='font-semibold flex items-center gap-2'>Merci de télécharger vos fichiers au format: xls ou xlsx <IonIcon icon={warning} className='text-4xl' /></IonText>
+            </div>
+            <div className='mx-2 px-2 pt-2 gap-2 flex flex-col'>
+              <input type="file" className='rounded-lg' onChange={handleFileChange} />
+              <IonButton onClick={handleUpload} disabled={uploading} className='blue'>Télécharger</IonButton>
+            </div>
+            <IonCard>
+              <IonCardHeader className='bg-gray-100'>
+                <IonCardTitle>Déclaration des salaires</IonCardTitle>
+              </IonCardHeader>
+              <IonCardContent className=''>
+                {loading ? <Loading type='' /> : <>
+                  <div className='grid grid-cols-12 font-bold text-black'>
+                    <div className='col-span-6 py-2'>Date</div>
+                    <div className='col-span-6 py-2 justify-self-center place-self-center'>Fichier</div>
+                  </div>
+                  <div className='divide-y'>
+                    {declarations.map((declaration: any) => (
+                      <div key={declaration.id} className='grid grid-cols-12 text-black'>
+                        <div className='col-span-4 py-2 flex flex-col '>
+                          <IonText >{declaration.date}</IonText>
+                        </div>
+                        <a className='py-2 col-span-8 break-all flex flex-col justify-center items-center' download href={`https://sante.ascourtage.tn/users/${declaration.file}`}>
+                          {formatFileName(declaration.file)}
+                          <IonIcon icon={arrowDownCircle} className='text-2xl text-primary' />
+                        </a>
                       </div>
-                      <a className='py-2 col-span-8 break-all flex flex-col justify-center items-center' download href={`https://sante.ascourtage.tn/users/${declaration.file}`}>
-                        {formatFileName(declaration.file)}
-                        <IonIcon icon={arrowDownCircle} className='text-2xl text-primary' />
-                      </a>
-                    </div>
-                  ))}
-                </div>
-              </>}
-            </IonCardContent>
-          </IonCard>
-        </div>
-      </IonContent>
+                    ))}
+                  </div>
+                </>}
+              </IonCardContent>
+            </IonCard>
+          </div>
+        </IonContent>
+      </motion.div>
     </IonPage>
   );
 };

@@ -5,6 +5,8 @@ import { useHistory, useParams } from 'react-router'
 import Loading from '../../components/Loading';
 import { checkmarkCircle, menu, save } from 'ionicons/icons';
 import AdminSidebar from '../../components/layouts/admin/AdminSidebar';
+import { motion } from "framer-motion";
+import Header from '../../components/layouts/Header';
 
 const TicketAdmin: React.FC = () => {
     const history = useHistory();
@@ -69,96 +71,91 @@ const TicketAdmin: React.FC = () => {
 
     return (
         <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonButtons slot="start">
-                        <IonBackButton></IonBackButton>
-                    </IonButtons>
-                    <IonTitle>Manage Ticket</IonTitle>
-                    <IonButtons slot='end' className='ml-2'>
-                        <IonButton onClick={() => { setIsExpanded(!isExpanded) }} fill='clear' className='text-blue'>
-                            <IonIcon icon={menu} className='' />
-                        </IonButton>
-                    </IonButtons>
-                </IonToolbar>
-            </IonHeader>
-            <IonContent>
-                <AdminSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
-                <div className='pl-[60px]'>
-                    <IonCard>
-                        <IonCardHeader>
-                            <div className='flex gap-4 justify-between items-center'>
-                                <IonText className='font-bold '>Ticket #{ticket?.id}</IonText>
-                                {isSaving ? "saving..." : ""}
-                            </div>
-                            <div className='flex gap-4 justify-between'>
-                                <IonSelect onIonChange={changeStatus} label='Status' className='flex-1' labelPlacement='floating' value={ticket?.status}>
-                                    <IonSelectOption>
-                                        Nouveau
-                                    </IonSelectOption>
-                                    <IonSelectOption>
-                                        Répondu
-                                    </IonSelectOption>
-                                    <IonSelectOption>
-                                        Terminé
-                                    </IonSelectOption>
-                                </IonSelect>
+            <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: "100%" }}
+                exit={{ x: window.innerWidth, transition: { duration: 0.1 } }}
+                className='h-full'
+            >
+                <Header title='Ticket' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+                <IonContent>
+                    <AdminSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+                    <div className='pl-[60px]'>
+                        <IonCard>
+                            <IonCardHeader>
+                                <div className='flex gap-4 justify-between items-center'>
+                                    <IonText className='font-bold '>Ticket #{ticket?.id}</IonText>
+                                    {isSaving ? "saving..." : ""}
+                                </div>
+                                <div className='flex gap-4 justify-between'>
+                                    <IonSelect onIonChange={changeStatus} label='Status' className='flex-1' labelPlacement='floating' value={ticket?.status}>
+                                        <IonSelectOption>
+                                            Nouveau
+                                        </IonSelectOption>
+                                        <IonSelectOption>
+                                            Répondu
+                                        </IonSelectOption>
+                                        <IonSelectOption>
+                                            Terminé
+                                        </IonSelectOption>
+                                    </IonSelect>
 
-                                <IonButton className='flex-1' onClick={changeIsClosed} color={ticket?.closed ? "success" : "danger"}>{ticket?.closed ? "Open" : "Close"}</IonButton>
-                            </div>
-                        </IonCardHeader>
-                        <IonCardContent className='flex flex-col gap-2'>
-                            <div>
-                                <IonText className='font-bold block'>User ID:</IonText>
-                                <IonText>{ticket?.user}</IonText>
-                            </div>
-                            <div>
-                                <IonText className='font-bold block'>User Name:</IonText>
-                                <IonText>{ticket?.user_name}</IonText>
-                            </div>
-                            <div>
-                                <IonText className='font-bold block'>Created:</IonText>
-                                <IonText>{ticket?.created}</IonText>
-                            </div>
-                            <div>
-                                <IonText className='font-bold block'>Updated:</IonText>
-                                <IonText>{ticket?.last_updated}</IonText>
-                            </div>
-                            <div>
-                                <IonText className='font-bold block'>Object:</IonText>
-                                <IonText>{ticket?.subject}</IonText>
-                            </div>
-                            <div>
-                                <IonText className='font-bold block'>Personne de contact:</IonText>
-                                <IonText>{ticket?.contactperson}</IonText>
-                            </div>
-                            <div>
-                                <IonText className='font-bold block'>Contenu:</IonText>
-                                <IonText>{ticket?.contenu}</IonText>
-                            </div>
-                            {/* <div>
+                                    <IonButton className='flex-1' onClick={changeIsClosed} color={ticket?.closed ? "success" : "danger"}>{ticket?.closed ? "Open" : "Close"}</IonButton>
+                                </div>
+                            </IonCardHeader>
+                            <IonCardContent className='flex flex-col gap-2'>
+                                <div>
+                                    <IonText className='font-bold block'>User ID:</IonText>
+                                    <IonText>{ticket?.user}</IonText>
+                                </div>
+                                <div>
+                                    <IonText className='font-bold block'>User Name:</IonText>
+                                    <IonText>{ticket?.user_name}</IonText>
+                                </div>
+                                <div>
+                                    <IonText className='font-bold block'>Created:</IonText>
+                                    <IonText>{ticket?.created}</IonText>
+                                </div>
+                                <div>
+                                    <IonText className='font-bold block'>Updated:</IonText>
+                                    <IonText>{ticket?.last_updated}</IonText>
+                                </div>
+                                <div>
+                                    <IonText className='font-bold block'>Object:</IonText>
+                                    <IonText>{ticket?.subject}</IonText>
+                                </div>
+                                <div>
+                                    <IonText className='font-bold block'>Personne de contact:</IonText>
+                                    <IonText>{ticket?.contactperson}</IonText>
+                                </div>
+                                <div>
+                                    <IonText className='font-bold block'>Contenu:</IonText>
+                                    <IonText>{ticket?.contenu}</IonText>
+                                </div>
+                                {/* <div>
                                 <IonTextarea label='Comment' labelPlacement='floating' />
                             </div>
                             <IonButton className='blue'>Submit Comment</IonButton> */}
 
-                        </IonCardContent>
-                    </IonCard>
-                </div>
-                <IonToast
-                    icon={checkmarkCircle}
-                    isOpen={isOpen}
-                    duration={5000}
-                    message="Ticket updated successfully!"
-                    className="custom-toast"
-                    onDidDismiss={() => setIsOpen(false)}
-                    buttons={[
-                        {
-                            text: 'Dismiss',
-                            role: 'cancel',
-                        },
-                    ]}
-                ></IonToast>
-            </IonContent>
+                            </IonCardContent>
+                        </IonCard>
+                    </div>
+                    <IonToast
+                        icon={checkmarkCircle}
+                        isOpen={isOpen}
+                        duration={5000}
+                        message="Ticket updated successfully!"
+                        className="custom-toast"
+                        onDidDismiss={() => setIsOpen(false)}
+                        buttons={[
+                            {
+                                text: 'Dismiss',
+                                role: 'cancel',
+                            },
+                        ]}
+                    ></IonToast>
+                </IonContent>
+            </motion.div>
         </IonPage>
     )
 }

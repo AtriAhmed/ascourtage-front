@@ -5,6 +5,9 @@ import "./Ticket.css"
 import { useState } from 'react';
 import axios from 'axios';
 import CustomSidebar from '../../components/layouts/user/UserSidebar';
+import { motion } from "framer-motion"
+import Header from '../../components/layouts/Header';
+
 const Ticket: React.FC = () => {
   const history = useHistory();
 
@@ -32,50 +35,48 @@ const Ticket: React.FC = () => {
 
   return (
     <IonPage id="main-content">
-      <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot='start' className='ml-2'>
-            <IonButton onClick={() => { setIsExpanded(!isExpanded) }} fill='clear' className='text-blue'>
-              <IonIcon icon={menu} className='' />
-            </IonButton>
-          </IonButtons>
-          <IonTitle>Assistance</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
-        <div className='pl-[60px]'>
-          <IonItem>
-            <IonSelect onIonChange={handleInput} value={inputs.subject} name='subject' label="Veuillez choisir un object" labelPlacement="floating">
-              <IonSelectOption value="Suggestion">Suggestion</IonSelectOption>
-              <IonSelectOption value="Demande de modification du RIB">Demande de modification du RIB</IonSelectOption>
-              <IonSelectOption value="Réclamation">Réclamation</IonSelectOption>
-              <IonSelectOption value="Autre demande" >Autre demande</IonSelectOption>
-            </IonSelect>
-          </IonItem>
-          <IonItem>
-            <IonInput onIonInput={handleInput} value={inputs.contactperson} name='contactperson' label="Personne de contact" labelPlacement="floating"></IonInput>
-          </IonItem>
-          <IonItem>
-            <IonTextarea onIonInput={handleInput} value={inputs.content} name='content' label='Contenu de votre demande' labelPlacement="floating" />
-          </IonItem>
-          <IonButton className='m-5' expand='block' shape="round" onClick={handleSubmit}>Créer Ticket</IonButton>
-        </div>
-        <IonToast
-          icon={checkmarkCircle}
-          isOpen={isOpen}
-          duration={5000}
-          message="Ticket created successfully!"
-          className="custom-toast"
-          onDidDismiss={() => setIsOpen(false)}
-          buttons={[
-            {
-              text: 'Dismiss',
-              role: 'cancel',
-            },
-          ]}
-        ></IonToast>
-      </IonContent>
+      <motion.div
+        initial={{ width: 0 }}
+        animate={{ width: "100%" }}
+        exit={{ x: window.innerWidth, transition: { duration: 0.1 } }}
+        className='h-full'
+      >
+        <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+        <Header title='Ticket' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+        <IonContent>
+          <div className='pl-[60px]'>
+            <IonItem>
+              <IonSelect onIonChange={handleInput} value={inputs.subject} name='subject' label="Veuillez choisir un object" labelPlacement="floating">
+                <IonSelectOption value="Suggestion">Suggestion</IonSelectOption>
+                <IonSelectOption value="Demande de modification du RIB">Demande de modification du RIB</IonSelectOption>
+                <IonSelectOption value="Réclamation">Réclamation</IonSelectOption>
+                <IonSelectOption value="Autre demande" >Autre demande</IonSelectOption>
+              </IonSelect>
+            </IonItem>
+            <IonItem>
+              <IonInput onIonInput={handleInput} value={inputs.contactperson} name='contactperson' label="Personne de contact" labelPlacement="floating"></IonInput>
+            </IonItem>
+            <IonItem>
+              <IonTextarea onIonInput={handleInput} value={inputs.content} name='content' label='Contenu de votre demande' labelPlacement="floating" />
+            </IonItem>
+            <IonButton className='m-5' expand='block' shape="round" onClick={handleSubmit}>Créer Ticket</IonButton>
+          </div>
+          <IonToast
+            icon={checkmarkCircle}
+            isOpen={isOpen}
+            duration={5000}
+            message="Ticket created successfully!"
+            className="custom-toast"
+            onDidDismiss={() => setIsOpen(false)}
+            buttons={[
+              {
+                text: 'Dismiss',
+                role: 'cancel',
+              },
+            ]}
+          ></IonToast>
+        </IonContent>
+      </motion.div>
     </IonPage>
   )
 };
