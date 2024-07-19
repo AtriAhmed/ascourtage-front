@@ -44,7 +44,7 @@ import AnimatedRoutes from './components/AnimatedRoutes';
 
 setupIonicReact();
 
-axios.defaults.baseURL = "http://localhost:8000/";
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 axios.interceptors.request.use(function (config) {
   const token = localStorage.getItem('token');
   config.headers.Authorization = token ? `Bearer ${token}` : '';

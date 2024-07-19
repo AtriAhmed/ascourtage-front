@@ -54,7 +54,7 @@ const AdminDashboard: React.FC = () => {
                 <Header title='Admin Dashboard' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 <IonContent>
                     <AdminSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
-                    <div className='pl-[60px]'>
+                    <div className='pl-[60px] pb-[48px]'>
                         <div className='grid grid-cols-12'>
                             {ROUTES.map((route, index) =>
                                 <div key={index} className='col-span-6'>

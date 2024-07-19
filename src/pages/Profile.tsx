@@ -29,7 +29,7 @@ const Profile: React.FC = () => {
         <Header title='Profile' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
         <IonContent>
           {user.account_owner ? <AdminSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} /> : <UserSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />}
-          <div className='pl-[60px]'>
+          <div className='pl-[60px] pb-[48px]'>
             <IonCard>
               <IonCardContent>
                 <IonImg className='' src='https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg'></IonImg>

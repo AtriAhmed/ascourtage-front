@@ -81,7 +81,7 @@ const Declaration: React.FC = () => {
         <Header title='Declaration Salaire' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
         <IonContent className="">
           <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
-          <div className='pl-[60px]'>
+          <div className='pl-[60px] pb-[48px]'>
             <div className='bg-yellow-200 rounded p-2 m-2'>
               <IonText className='font-semibold flex items-center gap-2'>Merci de télécharger vos fichiers au format: xls ou xlsx <IonIcon icon={warning} className='text-4xl' /></IonText>
             </div>

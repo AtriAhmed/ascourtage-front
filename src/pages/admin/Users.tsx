@@ -61,12 +61,12 @@ const Users: React.FC = () => {
                 <Header title='Utilisateurs' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 <IonContent>
                     <AdminSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
-                    <div className='pl-[60px]'>
+                    <div className='pl-[60px] pb-[48px]'>
                         <IonSearchbar value={searchQuery} onIonInput={handleSearchChange} autocapitalize='none'></IonSearchbar>
                         <IonCard>
                             <IonCardHeader className='bg-gray-100 flex flex-row justify-between items-center'>
                                 <IonCardTitle>Liste des Users</IonCardTitle>
-                                <IonButton className='blue' onClick={() => setShowAddModal(true)}><IonIcon icon={add} className='text-2xl px-2' /></IonButton>
+                                {/* <IonButton className='blue' onClick={() => setShowAddModal(true)}><IonIcon icon={add} className='text-2xl px-2' /></IonButton> */}
                             </IonCardHeader>
                             <IonCardContent className=''>
                                 {loading ? <Loading type='' height='h-[calc(100vh-208px)]' /> : <>

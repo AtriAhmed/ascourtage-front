@@ -57,11 +57,11 @@ const Prestataires: React.FC = () => {
                 className='h-full'
             >
                 <Header title='Prestataires' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
-                <IonContent>
+                <IonContent >
                     <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
-                    <div className='pl-[60px]'>
+                    <div className='pl-[60px] pb-[48px]'>
                         <IonSearchbar value={searchQuery} onIonInput={handleSearchChange} autocapitalize='none'></IonSearchbar>
-                        <IonCard>
+                        <IonCard className=''>
                             <IonCardHeader className='bg-gray-100'>
                                 <IonCardTitle>Liste des Prestataires</IonCardTitle>
                             </IonCardHeader>

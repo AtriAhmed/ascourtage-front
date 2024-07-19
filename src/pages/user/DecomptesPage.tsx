@@ -59,7 +59,7 @@ const DecomptesPage: React.FC = () => {
                 <Header title='Decomptes' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 <IonContent>
                     <UserSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
-                    <div className='pl-[60px]'>
+                    <div className='pl-[60px] pb-[48px]'>
                         <IonSearchbar value={searchQuery} onIonInput={handleSearchChange} autocapitalize='none'></IonSearchbar>
                         <IonCard>
                             <IonCardHeader className='bg-gray-100'>

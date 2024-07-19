@@ -61,7 +61,7 @@ const CumulPrestatairesDetail: React.FC = () => {
                 <Header title='Cumul Prestataire Detail' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 <IonContent>
                     <UserSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
-                    <div className='pl-[60px]'>
+                    <div className='pl-[60px] pb-[48px]'>
                         <IonSearchbar value={searchQuery} onIonInput={handleSearchChange} autocapitalize='none'></IonSearchbar>
                         <IonCard>
                             <IonCardHeader className='bg-gray-100'>
@@ -83,7 +83,7 @@ const CumulPrestatairesDetail: React.FC = () => {
                                                             <IonText className='block'>{decompte.Code}</IonText>
                                                         </div>
                                                         <div className='col-span-6 py-2 place-self-center text-center'><IonText className='font-bold'>{decompte.Prestation}</IonText></div>
-                                                        <div className='col-span-4 py-2 justify-self-end'><IonText>{decompte.Montant} DT</IonText></div>
+                                                        <div className='col-span-4 py-2 justify-self-end'><IonText>{decompte.TotalMontant} DT</IonText></div>
                                                     </Link>
                                                 )}
                                             </div>

@@ -57,7 +57,7 @@ const AdherentsAdmin: React.FC = () => {
                 <Header title='Adherents' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 <IonContent>
                     <AdminSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
-                    <div className='pl-[60px]'>
+                    <div className='pl-[60px] pb-[48px]'>
                         <IonSearchbar value={searchQuery} onIonInput={handleSearchChange} autocapitalize='none'></IonSearchbar>
                         <IonCard className=''>
                             <IonCardHeader className='bg-gray-100'>

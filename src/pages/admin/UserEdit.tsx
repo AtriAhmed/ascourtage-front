@@ -91,7 +91,7 @@ const UserEdit: React.FC = () => {
                 <Header title='Modifier Utilisateur' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 <IonContent>
                     <AdminSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
-                    <div className='pl-[60px]'>
+                    <div className='pl-[60px] pb-[48px]'>
                         <IonCard>
                             <IonCardContent className='relative'>
                                 {!user.active ? <div className='bg-yellow-200 p-2'>

@@ -10,12 +10,12 @@ import axios from 'axios';
 import Header from '../../components/layouts/Header';
 
 const ROUTES = [{
-    path: '/admin/bordereaux',
+    path: '/bordereaux',
     label: 'Bordereaux',
     icon: documentText
 },
 {
-    path: '/admin/adherents',
+    path: '/adherents',
     label: 'Adherents',
     icon: people
 },
@@ -37,14 +37,14 @@ const Dashboard: React.FC = () => {
             console.log(res.data)
             setStats([res.data.bordereauxNb, res.data.adherentsNb])
         })
-    })
+    }, [])
 
     return (
         <IonPage>
             <Header title='Dashboard' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
             <IonContent>
                 <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
-                <div className='pl-[60px]'>
+                <div className='pl-[60px] pb-[48px]'>
                     <div className='grid grid-cols-12'>
                         {ROUTES.map((route, index) =>
                             <div key={index} className='col-span-6'>

@@ -59,7 +59,7 @@ const CumulPrestataires: React.FC = () => {
                 <Header title='Cumul Prestataires' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 <IonContent>
                     <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
-                    <div className='pl-[60px]'>
+                    <div className='pl-[60px] pb-[48px]'>
                         <IonSearchbar value={searchQuery} onIonInput={handleSearchChange} autocapitalize='none'></IonSearchbar>
                         <IonCard>
                             <IonCardHeader className='bg-gray-100'>
@@ -74,15 +74,15 @@ const CumulPrestataires: React.FC = () => {
                                         </div>
                                         <div className='divide-y'>
                                             {decomptes?.map((decompte: any) =>
-                                                <Link to={`/cumul-prestataires/${decompte.Prestataire}`} key={decompte.Prestataire} className='grid grid-cols-12 text-black'>
+                                                <div onClick={(e: any) => { if (!e.target.closest(".view")) history.push(`/cumul-prestataires/${decompte.Prestataire}`) }} key={decompte.Prestataire} className='grid grid-cols-12 text-black'>
                                                     <div className='col-span-6 py-2'>
                                                         <IonText className='block'>{decompte.Prestataire}</IonText>
                                                         <div className='flex gap-1'><IonText className='font-bold'>{decompte.Nometprenom}</IonText>
                                                         </div>
                                                     </div>
                                                     <div className='col-span-5 place-self-center justify-self-start'><IonText>{decompte.TotalMontant}</IonText></div>
-                                                    <div className='py-2 col-span-1 justify-self-end place-self-center'><IonButton fill='clear' id="open-modal" onClick={() => { setToView(decompte); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
-                                                </Link>
+                                                    <div className='py-2 col-span-1 justify-self-end place-self-center'><IonButton className='view' fill='clear' id="open-modal" onClick={() => { setToView(decompte); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
+                                                </div>
                                             )}
                                         </div>
                                     </>

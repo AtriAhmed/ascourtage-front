@@ -43,8 +43,8 @@ const Ticket: React.FC = () => {
       >
         <Header title='Ticket' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
         <IonContent>
-        <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
-          <div className='pl-[60px]'>
+          <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+          <div className='pl-[60px] pb-[48px]'>
             <IonItem>
               <IonSelect onIonChange={handleInput} value={inputs.subject} name='subject' label="Veuillez choisir un object" labelPlacement="floating">
                 <IonSelectOption value="Suggestion">Suggestion</IonSelectOption>
@@ -57,9 +57,9 @@ const Ticket: React.FC = () => {
               <IonInput onIonInput={handleInput} value={inputs.contactperson} name='contactperson' label="Personne de contact" labelPlacement="floating"></IonInput>
             </IonItem>
             <IonItem>
-              <IonTextarea onIonInput={handleInput} value={inputs.content} name='content' label='Contenu de votre demande' labelPlacement="floating" />
+              <IonTextarea rows={4} onIonInput={handleInput} value={inputs.content} name='content' label='Contenu de votre demande' labelPlacement="floating" />
             </IonItem>
-            <IonButton className='m-5' expand='block' shape="round" onClick={handleSubmit}>Créer Ticket</IonButton>
+            <IonButton className='m-3 blue' expand='block' onClick={handleSubmit}>Créer Ticket</IonButton>
           </div>
           <IonToast
             icon={checkmarkCircle}
