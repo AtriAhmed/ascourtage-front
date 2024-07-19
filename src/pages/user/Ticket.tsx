@@ -41,9 +41,9 @@ const Ticket: React.FC = () => {
         exit={{ x: window.innerWidth, transition: { duration: 0.1 } }}
         className='h-full'
       >
-        <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
         <Header title='Ticket' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
         <IonContent>
+        <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
           <div className='pl-[60px]'>
             <IonItem>
               <IonSelect onIonChange={handleInput} value={inputs.subject} name='subject' label="Veuillez choisir un object" labelPlacement="floating">
