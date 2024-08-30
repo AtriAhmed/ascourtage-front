@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.ascourtage.sante;
 
 import com.getcapacitor.BridgeActivity;
 
