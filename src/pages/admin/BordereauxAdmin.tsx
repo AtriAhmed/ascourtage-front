@@ -78,7 +78,7 @@ const BordereauxAdmin: React.FC = () => {
                                             {bordereaux?.map((bordereau: any) =>
                                                 <div key={bordereau.Bordereau} onClick={(e: any) => { if (!e.target.closest(".view")) history.push(`/decomptes/by-bordereau/${bordereau.Bordereau}`) }} className='grid grid-cols-12 text-black'>
                                                     <div className='col-span-6 py-2'>
-                                                        <IonText className='block'>{bordereau.Bordereau}</IonText>
+                                                        <IonText className='block'>{bordereau.bordereau}</IonText>
                                                         <div className='flex gap-1'><IonText className='font-bold'>{bordereau.MontantTotal} DT</IonText>
                                                             {/* <IonText>{bordereau.MontantTotal}</IonText> */}
                                                         </div>
@@ -104,7 +104,7 @@ const BordereauxAdmin: React.FC = () => {
                                 <div className='ion-padding'>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Bordereau:</IonText>
-                                        <IonText className=''>{toView?.Bordereau}</IonText>
+                                        <IonText className=''>{toView?.bordereau}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Decomptes:</IonText>

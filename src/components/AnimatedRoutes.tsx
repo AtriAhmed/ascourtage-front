@@ -29,6 +29,9 @@ import TicketAdmin from '../pages/admin/TicketAdmin';
 import UserEdit from '../pages/admin/UserEdit';
 import Home from '../pages/Home';
 import { AnimatePresence } from 'framer-motion';
+import Message from '../pages/user/Message';
+import MessageAdmin from '../pages/admin/MessageAdmin';
+import AdminMessages from '../pages/admin/AdminMessages';
 
 const IS_ADMIN = true;
 
@@ -64,12 +67,12 @@ export default function AnimatedRoutes() {
                 <Route path="/cumul-prestataires" render={() => auth(<CumulPrestataires />)} exact />
                 <Route path="/cumul-prestataires/:id" render={() => auth(<CumulPrestatairesDetail />)} exact />
                 <Route path="/declaration" render={() => auth(<Declaration />)} exact />
-                <Route path="/assistance" render={() => auth(<Ticket />)} exact />
+                <Route path="/assistance" render={() => auth(<Message />)} exact />
                 <Route path="/dashboard" render={() => auth(<Dashboard />)} exact />
 
                 <Route path="/admin/dashboard" render={() => auth(<AdminDashboard />, IS_ADMIN)} exact />
-                <Route path="/admin/tickets" render={() => auth(<AdminTickets />, IS_ADMIN)} exact />
-                <Route path="/admin/tickets/:id" render={() => auth(<TicketAdmin />, IS_ADMIN)} exact />
+                <Route path="/admin/messages" render={() => auth(<AdminMessages />, IS_ADMIN)} exact />
+                <Route path="/admin/messages/:id" render={() => auth(<MessageAdmin />, IS_ADMIN)} exact />
                 <Route path="/admin/users" render={() => auth(<Users />, IS_ADMIN)} exact />
                 <Route path="/admin/users/:id" render={() => auth(<UserEdit />, IS_ADMIN)} exact />
                 <Route path="/admin/bordereaux" render={() => auth(<BordereauxAdmin />, IS_ADMIN)} exact />

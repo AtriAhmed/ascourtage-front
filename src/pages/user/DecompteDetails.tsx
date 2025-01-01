@@ -78,13 +78,13 @@ const DecompteDetails: React.FC = () => {
                                             </div>
                                             <div className='divide-y'>
                                                 {decomptes?.map((decompte: any) =>
-                                                    <Link to={`/decomptes/${decompte.Decompte}`} key={decompte.Decompte} className='grid grid-cols-12 text-black'>
+                                                    <div key={decompte.id} className='grid grid-cols-12 text-black'>
                                                         <div className='col-span-2 py-2'>
-                                                            <IonText className='block'>{decompte.Code}</IonText>
+                                                            <IonText className='block'>{decompte.typeprestation}</IonText>
                                                         </div>
-                                                        <div className='col-span-6 py-2 place-self-center text-center'><IonText className='font-bold'>{decompte.Prestation}</IonText></div>
-                                                        <div className='col-span-4 py-2 justify-self-end'><IonText>{decompte.Montant} DT</IonText></div>
-                                                    </Link>
+                                                        <div className='col-span-6 py-2 place-self-center text-center'><IonText className='font-bold'>{decompte.prestation}</IonText></div>
+                                                        <div className='col-span-4 py-2 justify-self-end'><IonText>{decompte.remboursement} DT</IonText></div>
+                                                    </div>
                                                 )}
                                             </div>
                                         </>
@@ -104,15 +104,15 @@ const DecompteDetails: React.FC = () => {
                                 <div className='ion-padding'>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Decompte:</IonText>
-                                        <IonText className=''>{toView?.Decompte}</IonText>
+                                        <IonText className=''>{toView?.decompte}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Adherent:</IonText>
-                                        <IonText className=''>{toView?.Adherent}</IonText>
+                                        <IonText className=''>{toView?.adherent}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Prestataire:</IonText>
-                                        <IonText className=''>{toView?.Prestataire}</IonText>
+                                        <IonText className=''>{toView?.prestataire}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Nom et Prenom:</IonText>
@@ -124,7 +124,7 @@ const DecompteDetails: React.FC = () => {
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Montant:</IonText>
-                                        <IonText className=''>{toView?.Montant}</IonText>
+                                        <IonText className=''>{toView?.remboursement}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Remarques:</IonText>

@@ -71,11 +71,11 @@ const AdherentsAdmin: React.FC = () => {
                                     </div>
                                     <div className='divide-y'>
                                         {adherents.map((adherent: any) =>
-                                            <div key={adherent.Adherent} onClick={(e: any) => { if (!e.target.closest(".view")) history.push(`/prestataires/by-adherent/${adherent.Adherent}`) }} className='grid grid-cols-12 text-black'>
+                                            <div key={adherent.matricule} onClick={(e: any) => { if (!e.target.closest(".view")) history.push(`/prestataires/by-adherent/${adherent.matricule}`) }} className='grid grid-cols-12 text-black'>
                                                 <div className='col-span-6 py-2'>
-                                                    <IonText className='block'>{adherent.Adherent}</IonText>
-                                                    <div className='flex gap-1'><IonText className='font-bold'>{adherent.Nom}</IonText>
-                                                        <IonText>{adherent.Prenom}</IonText></div>
+                                                    <IonText className='block'>{adherent.matricule}</IonText>
+                                                    <div className='flex gap-1'><IonText className='font-bold'>{adherent.nom}</IonText>
+                                                        <IonText>{adherent.prenom}</IonText></div>
                                                 </div>
                                                 <div className='py-2 col-span-6 justify-self-center place-self-end'><IonButton className='view' fill='clear' id="open-modal" onClick={() => { setToView(adherent); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
                                             </div>
@@ -98,27 +98,27 @@ const AdherentsAdmin: React.FC = () => {
                                 <div className='ion-padding'>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Adherent:</IonText>
-                                        <IonText className=''>{toView?.Adherent}</IonText>
+                                        <IonText className=''>{toView?.matricule}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Date Entrée:</IonText>
-                                        <IonText className=''>{toView?.Dateentree}</IonText>
+                                        <IonText className=''>{toView?.dateeffet}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Nom:</IonText>
-                                        <IonText className=''>{toView?.Nom}</IonText>
+                                        <IonText className=''>{toView?.nom}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Prénom:</IonText>
-                                        <IonText className=''>{toView?.Prenom}</IonText>
+                                        <IonText className=''>{toView?.prenom}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Date de naissance:</IonText>
-                                        <IonText className=''>{toView?.Datenaissance}</IonText>
+                                        <IonText className=''>{toView?.datenaissance}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>RIB:</IonText>
-                                        <IonText className=''>{toView?.RIB}</IonText>
+                                        <IonText className=''>{toView?.rib}</IonText>
                                     </div>
                                 </div>
                             </IonContent>

@@ -40,7 +40,7 @@ const ProfileEdit: React.FC = () => {
         try {
             const response = await axios.put(`/api/profile`, loginInput);
             setUser(response.data.user);
-            setSuccess("Profile updated successfully");
+            setSuccess("Profile mise à jour avec succéss");
         } catch (err: any) {
             setError(err.response?.data?.message || "An error occurred");
         }

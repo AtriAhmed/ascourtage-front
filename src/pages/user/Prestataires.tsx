@@ -76,9 +76,9 @@ const Prestataires: React.FC = () => {
                                         {prestataires?.map((prestataire: any) =>
                                             <div key={prestataire.id} className='grid grid-cols-12 text-black'>
                                                 <div className='col-span-6 py-2'>
-                                                    <IonText className='block'>{prestataire.Prestataire}</IonText>
-                                                    <div className='flex gap-1'><IonText className='font-bold'>{prestataire.Nom}</IonText>
-                                                        <IonText>{prestataire.Prenom}</IonText></div>
+                                                    <IonText className='block'>{prestataire.identifiant}</IonText>
+                                                    <div className='flex gap-1'><IonText className='font-bold'>{prestataire.nom}</IonText>
+                                                        <IonText>{prestataire.prenom}</IonText></div>
                                                 </div>
                                                 <div className='py-2 col-span-6 justify-self-center place-self-end'><IonButton fill='clear' id="open-modal" onClick={() => { setToView(prestataire); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
                                             </div>
@@ -100,31 +100,31 @@ const Prestataires: React.FC = () => {
                                 <div className='ion-padding'>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Prestataire:</IonText>
-                                        <IonText className=''>{toView?.Prestataire}</IonText>
+                                        <IonText className=''>{toView?.identifiant}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Nom:</IonText>
-                                        <IonText className=''>{toView?.Nom}</IonText>
+                                        <IonText className=''>{toView?.nom}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Prenom:</IonText>
-                                        <IonText className=''>{toView?.Prenom}</IonText>
+                                        <IonText className=''>{toView?.prenom}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Nom JF:</IonText>
-                                        <IonText className=''>{toView?.NomJF}</IonText>
+                                        <IonText className=''>{toView?.nomjeuneFille}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Date de naissance:</IonText>
-                                        <IonText className=''>{toView?.DateNaissance}</IonText>
+                                        <IonText className=''>{toView?.datenaissance}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Rang:</IonText>
-                                        <IonText className=''>{toView?.Rang}</IonText>
+                                        <IonText className=''>{toView?.rang}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Date Entrée:</IonText>
-                                        <IonText className=''>{toView?.DateEntree}</IonText>
+                                        <IonText className=''>{toView?.dateeffet}</IonText>
                                     </div>
                                 </div>
                             </IonContent>

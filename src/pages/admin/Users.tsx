@@ -76,9 +76,9 @@ const Users: React.FC = () => {
                                     </div>
                                     <div className='divide-y'>
                                         {users.map((user: any) =>
-                                            <div key={user.id} onClick={(e: any) => { if (!e.target.closest(".view")) history.push(`/admin/users/${user.id}`) }} className='grid grid-cols-12 text-black'>
+                                            <div key={user.code_matricule_id} onClick={(e: any) => { if (!e.target.closest(".view")) history.push(`/admin/users/${user.code_matricule_id}`) }} className='grid grid-cols-12 text-black'>
                                                 <div className='col-span-6 py-2'>
-                                                    <IonText className='block'>{user.id}</IonText>
+                                                    <IonText className='block'>{user.code_matricule_id}</IonText>
                                                     <div className='flex gap-1'><IonText className='font-bold'>{user.fname}</IonText>
                                                         <IonText>{user.lname}</IonText></div>
                                                 </div>

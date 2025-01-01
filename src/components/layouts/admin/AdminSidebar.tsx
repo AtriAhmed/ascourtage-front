@@ -121,8 +121,8 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isExpanded, setIsExpanded }
 
                     <button className={`${BUTTON_STYLE}`}>
                         <IonIcon icon={helpCircle} slot="start" className='absolute' />
-                        {isExpanded && <IonItem className={`${ITEM_STYLE}`} onClick={() => navigateAndCloseMenu("/admin/tickets")}>
-                            <IonLabel className={`${LABEL_STYLE}`}>Tickets</IonLabel>
+                        {isExpanded && <IonItem className={`${ITEM_STYLE}`} onClick={() => navigateAndCloseMenu("/admin/messages")}>
+                            <IonLabel className={`${LABEL_STYLE}`}>Messages</IonLabel>
                         </IonItem>}
                     </button>
 

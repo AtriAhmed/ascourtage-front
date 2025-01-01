@@ -70,20 +70,25 @@ const DecomptesPage: React.FC = () => {
                                     loading ? <Loading type='' height='h-[calc(100vh-208px)]' /> :
                                         <>
                                             <div className='grid grid-cols-12 font-bold text-black'>
-                                                <div className='col-span-5 py-2'>Prestataire</div>
+                                                <div className='col-span-5 py-2'>prestataire</div>
                                                 <div className='col-span-5 py-2'>Montant</div>
                                                 <div className='col-span-2 py-2 justify-self-end'></div>
                                             </div>
                                             <div className='divide-y'>
                                                 {decomptes?.map((decompte: any) =>
-                                                    <Link to={`/decomptes/${decompte.Decompte}`} key={decompte.Decompte} className='grid grid-cols-12 text-black'>
+                                                    <Link to={`/decomptes/${decompte.numerodecompte}`} key={decompte.numerodecompte} className='grid grid-cols-12 text-black'>
                                                         <div className='col-span-5 py-2'>
-                                                            <IonText className='block'>{decompte.Prestataire}</IonText>
-                                                            <div className='flex gap-1'><IonText className='font-bold'>{decompte.Nometprenom}</IonText>
+                                                            <IonText className='block'>{decompte.prestataire}</IonText>
+                                                            <div className='flex gap-1'><IonText className='font-bold'>{decompte.adherent.prenom} {decompte.adherent.nom}</IonText>
                                                             </div>
                                                         </div>
-                                                        <div className='col-span-5 py-2 place-self-center justify-self-start'><IonText>{decompte.Montant} DT</IonText></div>
-                                                        <div className='py-2 col-span-2 justify-self-end'><IonButton fill='clear' id="open-modal" onClick={() => { setToView(decompte); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
+                                                        <div className='col-span-5 py-2 place-self-center justify-self-start'><IonText>{decompte.totaldecompte} DT</IonText></div>
+                                                        <div className='py-2 col-span-2 justify-self-end'><IonButton fill='clear' id="open-modal" onClick={(e) => {
+                    e.preventDefault(); // Prevent the link behavior
+                    e.stopPropagation(); // Stop event propagation
+                    setToView(decompte);
+                    setShowModal(true);
+                }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
                                                     </Link>
                                                 )}
                                             </div>
@@ -94,7 +99,7 @@ const DecomptesPage: React.FC = () => {
                         <IonModal id='example-modal' isOpen={showModal}>
                             <IonContent>
                                 <IonToolbar className='tool'>
-                                    <IonTitle>Détailles Decompte</IonTitle>
+                                    <IonTitle>Détailles numerodecompte</IonTitle>
                                     <IonButtons slot="end">
                                         <IonButton color="light" onClick={() => setShowModal(false)}>
                                             Fermer
@@ -103,32 +108,32 @@ const DecomptesPage: React.FC = () => {
                                 </IonToolbar>
                                 <div className='ion-padding'>
                                     <div className='flex gap-2'>
-                                        <IonText className='font-bold'>Decompte:</IonText>
-                                        <IonText className=''>{toView?.Decompte}</IonText>
+                                        <IonText className='font-bold'>numerodecompte:</IonText>
+                                        <IonText className=''>{toView?.numerodecompte}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Adherent:</IonText>
-                                        <IonText className=''>{toView?.Adherent}</IonText>
+                                        <IonText className=''>{toView?.adherent.matricule}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
-                                        <IonText className='font-bold'>Prestataire:</IonText>
-                                        <IonText className=''>{toView?.Prestataire}</IonText>
+                                        <IonText className='font-bold'>prestataire:</IonText>
+                                        <IonText className=''>{toView?.prestataire}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Nom et Prenom:</IonText>
-                                        <IonText className=''>{toView?.Nometprenom}</IonText>
+                                        <IonText className=''>{toView?.adherent.prenom} {toView?.adherent.nom}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Date du soins:</IonText>
-                                        <IonText className=''>{toView?.Datedusoins}</IonText>
+                                        <IonText className=''>{toView?.datesoins}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Montant:</IonText>
-                                        <IonText className=''>{toView?.Montant}</IonText>
+                                        <IonText className=''>{toView?.totaldecompte}</IonText>
                                     </div>
                                     <div className='flex gap-2'>
                                         <IonText className='font-bold'>Remarques:</IonText>
-                                        <IonText className=''>{toView?.Remarques}</IonText>
+                                        <IonText className=''>{toView?.observations}</IonText>
                                     </div>
                                 </div>
                             </IonContent>

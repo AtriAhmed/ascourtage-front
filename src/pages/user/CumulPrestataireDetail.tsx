@@ -65,7 +65,7 @@ const CumulPrestatairesDetail: React.FC = () => {
                         <IonSearchbar value={searchQuery} onIonInput={handleSearchChange} autocapitalize='none'></IonSearchbar>
                         <IonCard>
                             <IonCardHeader className='bg-gray-100'>
-                                <IonCardTitle>Liste des Decomptes</IonCardTitle>
+                                <IonCardTitle>Cummul Prestataire Detail</IonCardTitle>
                             </IonCardHeader>
                             <IonCardContent className=''>
                                 {
@@ -78,13 +78,13 @@ const CumulPrestatairesDetail: React.FC = () => {
                                             </div>
                                             <div className='divide-y'>
                                                 {decomptes?.map((decompte: any) =>
-                                                    <Link to={`/decomptes/${decompte.Decompte}`} key={decompte.Code} className='grid grid-cols-12 text-black'>
+                                                    <div key={decompte.typeprestation} className='grid grid-cols-12 text-black'>
                                                         <div className='col-span-2 py-2'>
-                                                            <IonText className='block'>{decompte.Code}</IonText>
+                                                            <IonText className='block'>{decompte.typeprestation}</IonText>
                                                         </div>
-                                                        <div className='col-span-6 py-2 place-self-center text-center'><IonText className='font-bold'>{decompte.Prestation}</IonText></div>
+                                                        <div className='col-span-6 py-2 place-self-center text-center'><IonText className='font-bold'>{decompte.libellePrestation}</IonText></div>
                                                         <div className='col-span-4 py-2 justify-self-end'><IonText>{decompte.TotalMontant} DT</IonText></div>
-                                                    </Link>
+                                                    </div>
                                                 )}
                                             </div>
                                         </>
