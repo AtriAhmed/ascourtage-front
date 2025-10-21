@@ -9,9 +9,12 @@ import Loading from '../../components/Loading';
 import { debounce } from 'lodash';
 import { motion } from "framer-motion";
 import Header from '../../components/layouts/Header';
+import AdherentSidebar from '../../components/layouts/adherent/AdherentSidebar';
+import { useAuthContext } from '../../context/AuthProvider';
 
 const AdherentPrestataires: React.FC = () => {
     const history = useHistory();
+    const {user, userLoading} = useAuthContext();
     const { id }: { id: string } = useParams();
     const [loading, setLoading] = useState(true);
 
@@ -47,6 +50,8 @@ const AdherentPrestataires: React.FC = () => {
 
     const [toView, setToView] = useState<any>(null);
     const [showModal, setShowModal] = useState(false);
+ 
+    if(userLoading) return <Loading type='page' />
 
     return (
         <IonPage>
@@ -58,7 +63,7 @@ const AdherentPrestataires: React.FC = () => {
             >
                 <Header title='Prestataires Adherent' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 <IonContent>
-                    <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+                   {user?.role == 5 ? <AdherentSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} /> :  <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />}
                     <div className='pl-[60px] pb-[48px]'>
                         <IonSearchbar value={searchQuery} onIonInput={handleSearchChange} autocapitalize='none'></IonSearchbar>
                         <IonCard>

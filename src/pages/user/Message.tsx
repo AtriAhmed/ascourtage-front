@@ -7,9 +7,13 @@ import axios from 'axios';
 import CustomSidebar from '../../components/layouts/user/UserSidebar';
 import { motion } from "framer-motion";
 import Header from '../../components/layouts/Header';
+import { useAuthContext } from '../../context/AuthProvider';
+import Loading from '../../components/Loading';
+import AdherentSidebar from '../../components/layouts/adherent/AdherentSidebar';
 
 const Message: React.FC = () => {
   const history = useHistory();
+  const {user, userLoading} = useAuthContext();
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -42,6 +46,8 @@ const Message: React.FC = () => {
     });
   };
 
+  if(userLoading) return <Loading type='page' />
+
   return (
     <IonPage id="main-content">
       <motion.div
@@ -52,7 +58,7 @@ const Message: React.FC = () => {
       >
         <Header title='Message' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
         <IonContent>
-          <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+         {user?.role == 4 ? <CustomSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} /> : <AdherentSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />}
           <div className='pl-[60px] pb-[48px]'>
             <IonItem>
               <IonSelect onIonChange={handleInput} value={inputs.subject} name='subject' label="Veuillez choisir un sujet" labelPlacement="floating">

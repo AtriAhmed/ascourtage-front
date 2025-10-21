@@ -67,20 +67,21 @@ const Bordereaux: React.FC = () => {
                             <IonCardContent className=''>
                                 {loading ? <Loading type='' height='h-[calc(100vh-208px)]' /> :
                                     <>
-                                        <div className='grid grid-cols-12 font-bold text-black'>
-                                            <div className='col-span-6 py-2'>Bordereau</div>
-                                            <div className='col-span-6 py-2 justify-self-center place-self-center'>Action</div>
+                                        <div className='grid grid-cols-12 font-bold text-black text-sm'>
+                                            <div className='col-span-5 py-2'>Bordereau</div>
+                                            <div className='col-span-3 py-2'>Decomptes</div>
+                                            <div className='col-span-4 py-2 justify-self-center place-self-center'>Action</div>
                                         </div>
                                         <div className='divide-y'>
                                             {bordereaux?.map((bordereau: any) =>
                                                 <div key={bordereau.bordereau} onClick={(e: any) => { if (!e.target.closest(".view")) history.push(`/decomptes/by-bordereau/${bordereau.bordereau}`) }} className='grid grid-cols-12 text-black'>
-                                                    <div className='col-span-6 py-2'>
+                                                    <div className='col-span-5 py-2'>
                                                         <IonText className='block'>{bordereau.bordereau}</IonText>
                                                         <div className='flex gap-1'><IonText className='font-bold'>{bordereau.MontantTotal} DT</IonText>
-                                                            {/* <IonText>{bordereau.MontantTotal}</IonText> */}
                                                         </div>
                                                     </div>
-                                                    <div className='py-2 col-span-6 justify-self-center place-self-end'><IonButton className='view' fill='clear' id="open-modal" onClick={() => { setToView(bordereau); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
+                                                    <div className='col-span-3 py-2 text-center'>{bordereau.Decomptes}</div>
+                                                    <div className='py-2 col-span-4 justify-self-center place-self-end'><IonButton className='view' fill='clear' id="open-modal" onClick={() => { setToView(bordereau); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
                                                 </div>
                                             )}
                                         </div>

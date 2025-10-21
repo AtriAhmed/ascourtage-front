@@ -23,6 +23,13 @@ ion-button.blue {
     --padding-bottom: 10px; */
 }
 
+ion-button.text-btn {
+  /* --padding-top: 10px;
+    --padding-bottom: 10px; */
+    --padding-start: 4px !important;
+    --padding-end: 4px !important; 
+}
+
 
 
 ion-toast.custom-toast {

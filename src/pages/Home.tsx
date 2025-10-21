@@ -1,8 +1,6 @@
-import { IonBadge, IonButton, IonButtons, IonCheckbox, IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonList, IonNote, IonPage, IonTitle, IonToolbar, useIonRouter } from '@ionic/react';
+import { IonButton, IonContent, IonImg, IonPage } from '@ionic/react';
 import './Home.css';
-import { add } from "ionicons/icons";
 import { useHistory } from 'react-router';
-import { useAuthContext } from '../context/AuthProvider';
 import { motion } from "framer-motion"
 
 const Home: React.FC = () => {
@@ -23,7 +21,8 @@ const Home: React.FC = () => {
               <div className='flex flex-col gap-4 items-center'>
                 <div className='text-white font-bold text-4xl'>Bienvenue à</div>
                 <IonImg
-                  src="/ascourtage.png"
+                className='bg-white rounded-md'
+                  src="/logo.png"
                   alt="ASCOURTAGE"
                 ></IonImg>
               </div>

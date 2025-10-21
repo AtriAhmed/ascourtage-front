@@ -1,4 +1,4 @@
-package com.ascourtage.sante;
+package tn.ascourtage.sante;
 
 import com.getcapacitor.BridgeActivity;
 

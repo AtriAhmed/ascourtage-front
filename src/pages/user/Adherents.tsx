@@ -1,5 +1,5 @@
 import { IonBackButton, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonIcon, IonModal, IonPage, IonSearchbar, IonText, IonTitle, IonToolbar, useIonRouter } from '@ionic/react';
-import { menu, searchCircle } from "ionicons/icons";
+import { arrowForward, arrowForwardCircle, menu, searchCircle } from "ionicons/icons";
 import { useHistory } from 'react-router';
 import { useCallback, useEffect, useState } from 'react';
 import './Adherents.css'
@@ -69,18 +69,19 @@ const Adherents: React.FC = () => {
                 {loading ? <Loading type='' height='h-[calc(100vh-208px)]' /> :
                   <>
                     <div className='grid grid-cols-12 font-bold text-black'>
-                      <div className='col-span-6 py-2'>Adhérent</div>
-                      <div className='col-span-6 py-2 justify-self-center place-self-center'>Action</div>
+                      <div className='col-span-8 py-2'>Adhérent</div>
+                      <div className='col-span-4 py-2 justify-self-center place-self-center'>Action</div>
                     </div>
                     <div className='divide-y'>
                       {adherents.map((adherent: any) =>
                         <div key={adherent.matricule} onClick={(e: any) => { if (!e.target.closest(".view")) history.push(`/prestataires/by-adherent/${adherent.matricule}`) }} className='grid grid-cols-12 text-black'>
-                          <div className='col-span-6 py-2'>
+                          <div className='col-span-8 py-2'>
                             <IonText className='block'>{adherent.matricule}</IonText>
                             <div className='flex gap-1'><IonText className='font-bold'>{adherent.nom}</IonText>
                               <IonText>{adherent.prenom}</IonText></div>
                           </div>
-                          <div className='py-2 col-span-6 justify-self-center place-self-end'><IonButton className='view' fill='clear' id="open-modal" onClick={() => { setToView(adherent); setShowModal(true) }}><IonIcon icon={searchCircle} className='text-3xl text-primary' /></IonButton> </div>
+                          <div className='py-2 col-span-2 justify-self-center place-self-end'><IonButton expand='block' className='view blue padding w-full text-sm' size='small' id="open-modal" onClick={() => { setToView(adherent); setShowModal(true) }}>ADR.</IonButton> </div>
+                          <div className='py-2 col-span-2 justify-self-center place-self-end'><IonButton expand='block' className='blue padding w-full text-sm' size='small'>PR.</IonButton> </div>
                         </div>
                       )}
                     </div>

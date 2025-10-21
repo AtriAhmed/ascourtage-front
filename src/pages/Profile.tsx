@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonCardContent, IonImg, IonText, IonIcon, IonButtons, IonBackButton } from '@ionic/react';
-import { menu } from 'ionicons/icons';
+import { business, menu, person } from 'ionicons/icons';
 import UserSidebar from '../components/layouts/user/UserSidebar';
 import { useAuthContext } from '../context/AuthProvider';
 import User from '../models/User';
@@ -12,6 +12,7 @@ import Header from '../components/layouts/Header';
 
 const Profile: React.FC = () => {
   const { user }: { user: User } = useAuthContext();
+  console.log(user)
   const [isExpanded, setIsExpanded] = useState(false);
 
   const history = useHistory();
@@ -32,10 +33,15 @@ const Profile: React.FC = () => {
           <div className='pl-[60px] pb-[48px]'>
             <IonCard>
               <IonCardContent>
-                <IonImg className='' src='https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg'></IonImg>
+                {/* <IonImg className='' src='https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg'></IonImg> */}
+                
+                <div className='text-center'>
+                  {user.role == 5 ? <IonIcon icon={person} slot="start" className='text-primary h-40 w-40' /> : <IonIcon icon={business} slot="start" className='text-primary h-40 w-40' /> }
+                  </div>
+                
                 <IonText className="text-black text-xl font-bold flex justify-center">{user?.lname + " " + user?.fname}</IonText>
                 <IonText className="text-lg flex justify-center">@{user?.username}</IonText>
-                <div className='flex justify-center'><IonButton className='blue' onClick={() => history.push('/profile/edit')}>Editer les infos du compte</IonButton></div>
+                <div className='flex justify-center'><IonButton className='blue w-full' onClick={() => history.push('/profile/edit')}>Editer les infos du compte</IonButton></div>
               </IonCardContent>
             </IonCard>
           </div>

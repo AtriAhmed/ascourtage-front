@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.ascourtage.sante',
+  appId: 'tn.ascourtage.sante',
   appName: 'AS Courtage',
   webDir: 'dist',
   server: {

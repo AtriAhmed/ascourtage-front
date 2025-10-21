@@ -10,13 +10,14 @@ import Loading from '../../components/Loading';
 import { debounce } from 'lodash';
 import { motion } from "framer-motion";
 import Header from '../../components/layouts/Header';
+import AdherentSidebar from '../../components/layouts/adherent/AdherentSidebar';
 
 const DecompteDetails: React.FC = () => {
     const { id }: { id: string } = useParams();
     const history = useHistory();
     const [loading, setLoading] = useState(true);
 
-    const { user }: { user: any } = useAuthContext();
+    const { user, userLoading }: { user: any, userLoading:boolean } = useAuthContext();
     const [isExpanded, setIsExpanded] = useState(false);
 
     const [decomptes, setDecomptes] = useState([]);
@@ -28,6 +29,7 @@ const DecompteDetails: React.FC = () => {
             params: { query }
         }).then(res => {
             setDecomptes(res.data);
+            console.log(res.data);
         }).catch((err: any) => {
             if (err.response.status == 401) window.location.pathname = "/login"
         }).
@@ -60,12 +62,12 @@ const DecompteDetails: React.FC = () => {
             >
                 <Header title='Decompte Detailles' isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 <IonContent>
-                    <UserSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+                   {user.role == 5 ? <AdherentSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} /> : <UserSidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />}
                     <div className='pl-[60px] pb-[48px]'>
                         <IonSearchbar value={searchQuery} onIonInput={handleSearchChange} autocapitalize='none'></IonSearchbar>
                         <IonCard>
                             <IonCardHeader className='bg-gray-100'>
-                                <IonCardTitle>Liste des Decomptes</IonCardTitle>
+                                <IonCardTitle>Decompte Detailles</IonCardTitle>
                             </IonCardHeader>
                             <IonCardContent className=''>
                                 {
@@ -73,7 +75,7 @@ const DecompteDetails: React.FC = () => {
                                         <>
                                             <div className='grid grid-cols-12 font-bold text-black'>
                                                 <div className='col-span-2 py-2'>Code</div>
-                                                <div className='col-span-6 py-2 place-self-center'>Prestation</div>
+                                                <div className='col-span-6 py-2 place-self-center'>Libellé</div>
                                                 <div className='col-span-4 py-2 justify-self-end'>Montant</div>
                                             </div>
                                             <div className='divide-y'>
@@ -82,7 +84,7 @@ const DecompteDetails: React.FC = () => {
                                                         <div className='col-span-2 py-2'>
                                                             <IonText className='block'>{decompte.typeprestation}</IonText>
                                                         </div>
-                                                        <div className='col-span-6 py-2 place-self-center text-center'><IonText className='font-bold'>{decompte.prestation}</IonText></div>
+                                                        <div className='col-span-6 py-2 place-self-center text-center'><IonText className='font-bold'>{decompte.libelle}</IonText></div>
                                                         <div className='col-span-4 py-2 justify-self-end'><IonText>{decompte.remboursement} DT</IonText></div>
                                                     </div>
                                                 )}

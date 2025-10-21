@@ -13,6 +13,7 @@ const isEmail = (input: string) => {
 };
 
 const Login: React.FC = () => {
+      const history = useHistory();
 
   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
 
@@ -52,9 +53,11 @@ const Login: React.FC = () => {
     axios.post('/api/login', data).then(res => {
       setUser(res.data.user)
       localStorage.setItem('token', res.data.token);
-      if (res.data.user.account_owner > 0) window.location.pathname == "/admin/dashboard";
+      if (res.data.user.role == 2) {window.location.pathname = "/admin/dashboard";console.log("redirected to admin dash")}
       else
-        window.location.pathname == "/dashboard";
+        if(res.data.user.role == 4) {window.location.pathname = "/dashboard";console.log("redirected to dashboard")}
+        else
+        if(res.data.user.role==5) {window.location.pathname = "/adherent/dashboard";console.log("redirected to adherent dashboard")}
     }
     ).catch((err: any) => {
       const response = err?.response;

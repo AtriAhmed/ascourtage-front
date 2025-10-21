@@ -5,5 +5,6 @@ export default interface User {
     fname: string,
     email: string,
     account_owner: number,
-    last_login: string
+    last_login: string,
+    role: number
 }

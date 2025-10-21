@@ -1,12 +1,11 @@
-import { IonReactRouter } from '@ionic/react-router'
-import React, { ReactNode, useEffect } from 'react'
-import { Redirect, Route, Switch, useLocation } from 'react-router'
+import { ReactNode, useEffect } from 'react';
+import { Redirect, Route, Switch, useLocation } from 'react-router';
+import { AnimatePresence } from 'framer-motion';
 
 import Login from '../pages/Login';
 import Profile from '../pages/Profile';
 import Adherents from '../pages/user/Adherents';
 import Declaration from '../pages/user/Declaration';
-import Ticket from '../pages/user/Ticket';
 import { useAuthContext } from '../context/AuthProvider';
 import Dashboard from '../pages/user/Dashboard';
 import AdherentPrestataires from '../pages/user/AdherentPrestataires';
@@ -17,7 +16,6 @@ import Loading from '../components/Loading';
 import DecomptesPage from '../pages/user/DecomptesPage';
 import CumulPrestataires from '../pages/user/CumulPrestataires';
 import AdminDashboard from '../pages/admin/AdminDashboard';
-import AdminTickets from '../pages/admin/AdminTickets';
 import Users from '../pages/admin/Users';
 import Declarations from '../pages/admin/Declarations';
 import AdherentsAdmin from '../pages/admin/AdherentsAdmin';
@@ -25,61 +23,217 @@ import BordereauxAdmin from '../pages/admin/BordereauxAdmin';
 import DecompteDetails from '../pages/user/DecompteDetails';
 import CumulPrestatairesDetail from '../pages/user/CumulPrestataireDetail';
 import ProfileEdit from '../pages/ProfileEdit';
-import TicketAdmin from '../pages/admin/TicketAdmin';
 import UserEdit from '../pages/admin/UserEdit';
 import Home from '../pages/Home';
-import { AnimatePresence } from 'framer-motion';
 import Message from '../pages/user/Message';
 import MessageAdmin from '../pages/admin/MessageAdmin';
 import AdminMessages from '../pages/admin/AdminMessages';
-
-const IS_ADMIN = true;
+import AdherentDashboard from '../pages/adherent/AdherentDashboard';
+import AdherentDetails from '../pages/adherent/AdherentDetails';
+import AdherentDecomptesPage from '../pages/adherent/AdherentDecomptesPage';
 
 export default function AnimatedRoutes() {
+  const location = useLocation();
+  const { user, userLoading } = useAuthContext();
 
-    const location = useLocation();
-
-    const { user, userLoading } = useAuthContext();
-
-    useEffect(() => {
-        console.log(user, userLoading)
-    }, [user, userLoading])
-
-    function auth(cmp: ReactNode, isAdmin?: boolean) {
-        return userLoading ? <Loading type='page' /> : user && (user.account_owner || !isAdmin) ? cmp : <Redirect to="/login" />
+  // Helper: Return where to redirect based on user role
+  function getRedirectByRole(role: number) {
+    switch (role) {
+      case 2: // Admin
+        return '/admin/dashboard';
+      case 4: // "Company/Societe" user
+        return '/dashboard';
+      case 5: // "Adherent" user
+        return '/adherent/dashboard';
+      default:
+        // If user has a role that's not recognized, send them somewhere safe:
+        return '/login';
     }
+  }
 
-    return (
-        <AnimatePresence>
+  // Helper: Basic auth check
+  // `requiresAdmin` is a boolean to check if the route is admin-only
+  function auth(component: ReactNode, requiresAdmin = false) {
+    if (userLoading) {
+      return <Loading type="page" />;
+    }
+    if (!user) {
+      // If there's no user, redirect to login
+      return <Redirect to="/login" />;
+    }
+    // If route requires admin role (role === 2), check user
+    if (requiresAdmin && user.role !== 2) {
+      return <Redirect to="/login" />;
+    }
+    // Otherwise, user is allowed
+    return component;
+  }
 
-            <Switch location={location} key={location.pathname}>
-                <Route path="/home" component={Home} />
-                <Route path="/login" render={() => !user && !userLoading ? <Login /> : userLoading ? <Loading type='page' /> : user && user.account_owner ? <Redirect to="/admin/dashboard" /> : <Redirect to="/dashboard" />} exact />
-                <Route path="/profile" render={() => auth(<Profile />)} exact />
-                <Route path="/profile/edit" render={() => auth(<ProfileEdit />)} exact />
-                <Route path="/adherents" render={() => auth(<Adherents />)} exact />
-                <Route path="/prestataires/by-adherent/:id" render={() => auth(<AdherentPrestataires />)} exact />
-                <Route path="/prestataires" render={() => auth(<Prestataires />)} exact />
-                <Route path="/bordereaux" render={() => auth(<Bordereaux />)} exact />
-                <Route path="/decomptes/by-bordereau/:id" render={() => auth(<BordereauDecomptes />)} exact />
-                <Route path="/decomptes" render={() => auth(<DecomptesPage />)} exact />
-                <Route path="/decomptes/:id" render={() => auth(<DecompteDetails />)} exact />
-                <Route path="/cumul-prestataires" render={() => auth(<CumulPrestataires />)} exact />
-                <Route path="/cumul-prestataires/:id" render={() => auth(<CumulPrestatairesDetail />)} exact />
-                <Route path="/declaration" render={() => auth(<Declaration />)} exact />
-                <Route path="/assistance" render={() => auth(<Message />)} exact />
-                <Route path="/dashboard" render={() => auth(<Dashboard />)} exact />
+  useEffect(() => {
+    // Just to debug role in console:
+    console.log('role: ', user?.role);
+  }, [user]);
 
-                <Route path="/admin/dashboard" render={() => auth(<AdminDashboard />, IS_ADMIN)} exact />
-                <Route path="/admin/messages" render={() => auth(<AdminMessages />, IS_ADMIN)} exact />
-                <Route path="/admin/messages/:id" render={() => auth(<MessageAdmin />, IS_ADMIN)} exact />
-                <Route path="/admin/users" render={() => auth(<Users />, IS_ADMIN)} exact />
-                <Route path="/admin/users/:id" render={() => auth(<UserEdit />, IS_ADMIN)} exact />
-                <Route path="/admin/bordereaux" render={() => auth(<BordereauxAdmin />, IS_ADMIN)} exact />
-                <Route path="/admin/adherents" render={() => auth(<AdherentsAdmin />, IS_ADMIN)} exact />
-                <Route path="/admin/declarations" render={() => auth(<Declarations />, IS_ADMIN)} exact />
-                <Redirect exact from="/" to="/home" />
-            </Switch>
-        </AnimatePresence>
-    )
+  return (
+    <AnimatePresence>
+      <Switch location={location} key={location.pathname}>
+
+        {/* Public routes */}
+        <Route path="/home" component={Home} exact />
+
+        {/* Login Route */}
+        <Route
+          path="/login"
+          exact
+          render={() => {
+            if (userLoading) {
+              return <Loading type="page" />;
+            }
+            // If not logged in, show <Login />
+            if (!user) {
+              return <Login />;
+            }
+            // If user is logged in, redirect based on role
+            return <Redirect to={getRedirectByRole(user.role)} />;
+          }}
+        />
+
+        {/* Profile */}
+        <Route
+          path="/profile"
+          exact
+          render={() => auth(<Profile />)}
+        />
+        <Route
+          path="/profile/edit"
+          exact
+          render={() => auth(<ProfileEdit />)}
+        />
+
+        {/* Adherent-only pages (role=5) - if you want a stricter check, do it inside `auth` or inline */}
+        <Route
+          path="/adherent/dashboard"
+          exact
+          render={() => auth(<AdherentDashboard />)}
+        />
+        <Route
+          path="/adherent/details"
+          exact
+          render={() => auth(<AdherentDetails />)}
+        />
+        <Route
+          path="/adherent/decomptes"
+          exact
+          render={() => auth(<AdherentDecomptesPage />)}
+        />
+
+        {/* Common user pages (role=4 or role=5) — or any logged-in user */}
+        <Route
+          path="/prestataires"
+          exact
+          render={() => auth(<Prestataires />)}
+        />
+        <Route
+          path="/bordereaux"
+          exact
+          render={() => auth(<Bordereaux />)}
+        />
+        <Route
+          path="/decomptes/by-bordereau/:id"
+          exact
+          render={() => auth(<BordereauDecomptes />)}
+        />
+        <Route
+          path="/decomptes"
+          exact
+          render={() => auth(<DecomptesPage />)}
+        />
+        <Route
+          path="/decomptes/:id"
+          exact
+          render={() => auth(<DecompteDetails />)}
+        />
+        <Route
+          path="/cumul-prestataires"
+          exact
+          render={() => auth(<CumulPrestataires />)}
+        />
+        <Route
+          path="/cumul-prestataires/:id"
+          exact
+          render={() => auth(<CumulPrestatairesDetail />)}
+        />
+        <Route
+          path="/declaration"
+          exact
+          render={() => auth(<Declaration />)}
+        />
+        <Route
+          path="/assistance"
+          exact
+          render={() => auth(<Message />)}
+        />
+        <Route
+          path="/dashboard"
+          exact
+          render={() => auth(<Dashboard />)}
+        />
+        <Route
+          path="/adherents"
+          exact
+          render={() => auth(<Adherents />)}
+        />
+        <Route
+          path="/prestataires/by-adherent/:id"
+          exact
+          render={() => auth(<AdherentPrestataires />)}
+        />
+
+        {/* Admin routes (role=2) */}
+        <Route
+          path="/admin/dashboard"
+          exact
+          render={() => auth(<AdminDashboard />, true)}
+        />
+        <Route
+          path="/admin/messages"
+          exact
+          render={() => auth(<AdminMessages />, true)}
+        />
+        <Route
+          path="/admin/messages/:id"
+          exact
+          render={() => auth(<MessageAdmin />, true)}
+        />
+        <Route
+          path="/admin/users"
+          exact
+          render={() => auth(<Users />, true)}
+        />
+        <Route
+          path="/admin/users/:id"
+          exact
+          render={() => auth(<UserEdit />, true)}
+        />
+        <Route
+          path="/admin/bordereaux"
+          exact
+          render={() => auth(<BordereauxAdmin />, true)}
+        />
+        <Route
+          path="/admin/adherents"
+          exact
+          render={() => auth(<AdherentsAdmin />, true)}
+        />
+        <Route
+          path="/admin/declarations"
+          exact
+          render={() => auth(<Declarations />, true)}
+        />
+
+        {/* Catch-all redirect: if no path matches, go to /home */}
+        <Redirect exact from="/" to="/home" />
+      </Switch>
+    </AnimatePresence>
+  );
 }
